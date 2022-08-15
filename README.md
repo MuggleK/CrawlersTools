@@ -15,4 +15,4 @@ CrawlersTools requires Python 3.7+.
 
 ## Contribute
 
-If you want to contribute with CrawlersTools check out the [GitHub](https://github.com/MuggleK).
+If you want to contribute with CrawlersTools check out the [GitHub](https://github.com/MuggleK/CrawlersTools).
