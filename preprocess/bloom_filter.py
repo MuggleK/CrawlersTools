@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# @Project : qzd_crawler_tools
+# @Project : CrawlersTools
 # @Time    : 2022/8/12 14:35
-# @Author  : Changchuan.Pei
+# @Author  : MuggleK
 # @File    : bloom_filter.py
 
 

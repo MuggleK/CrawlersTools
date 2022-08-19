@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# @Project : qzd_crawler_tools
+# @Project : CrawlersTools
 # @Time    : 2022/6/21 17:06
-# @Author  : Changchuan.Pei
+# @Author  : MuggleK
 # @File    : proxy.py
 
 import requests

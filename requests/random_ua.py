@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# @Project : qzd_crawler_tools
+# @Project : CrawlersTools
 # @Time    : 2022/6/21 16:44
-# @Author  : Changchuan.Pei
+# @Author  : MuggleK
 # @File    : random_ua.py
 
 import random

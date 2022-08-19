@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @Project : qzd_crawler_tools
+# @Project : CrawlersTools
 # @Time    : 2022/8/15 11:29
-# @Author  : Changchuan.Pei
+# @Author  : MuggleK
 # @File    : __init__.py

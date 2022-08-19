@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# @Project : qzd_crawler_tools
+# @Project : CrawlersTools
 # @Time    : 2022/8/12 9:12
-# @Author  : Changchuan.Pei
+# @Author  : MuggleK
 # @File    : redis_pipeline.py
 
 import redis

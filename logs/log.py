@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# @Project : qzd_crawler_tools
+# @Project : CrawlersTools
 # @Time    : 2022/6/21 17:08
-# @Author  : Changchuan.Pei
-# @File    : log.py
+# @Author  : MuggleK
+# @File    : logs.py
 
 import time
 

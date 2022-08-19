@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# @Project : qzd_crawler_tools
+# @Project : CrawlersTools
 # @Time    : 2022/6/21 17:19
-# @Author  : Changchuan.Pei
+# @Author  : MuggleK
 # @File    : auto_thread.py
 
 import time

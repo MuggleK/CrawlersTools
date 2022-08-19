@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# @Project : qzd_crawler_tools
+# @Project : CrawlersTools
 # @Time    : 2022/6/21 17:08
-# @Author  : Changchuan.Pei
+# @Author  : MuggleK
 # @File    : base_requests.py
 
 import re
@@ -12,8 +12,8 @@ import random
 from httpx import Client, Response
 from loguru import logger
 
-from CrawlersTools._requests.proxy import get_proxies
-from CrawlersTools._requests.random_ua import UserAgent
+from CrawlersTools.requests.proxy import get_proxies
+from CrawlersTools.requests.random_ua import UserAgent
 
 
 class BaseRequests(object):
