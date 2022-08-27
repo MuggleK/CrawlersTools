@@ -9,6 +9,7 @@ import json
 import time
 import random
 
+from charset_normalizer import detect
 from httpx import Client, Response
 from loguru import logger
 
@@ -37,6 +38,7 @@ class BaseRequests(object):
         proxies: dict = None,
         proxy_type: str = "random",
         http2: bool = False,
+        encoding: str = None,
         retry: int = 3,
         **kwargs
     ) -> Response:
@@ -51,6 +53,7 @@ class BaseRequests(object):
         :param proxy_type:  代理类型，默认取随机
         :param http2:   是否使用http2.0协议
         :param retry:   请求重试次数，默认3次
+        :param encoding:   指定编码，默认detect解析，效果同requests的apparent_encoding
         :param kwargs:  请求时需携带的其他参数
         :return: Response
         :exception: 1.代理失效&超过重试次数返回None 2.waf或加速乐解密失败返回None
@@ -78,6 +81,7 @@ class BaseRequests(object):
                     timeout=kwargs.get("timeout", 20),
                     follow_redirects=kwargs.get("allow_redirects", False)
                 )
+                response.encoding = encoding if encoding else detect(response.content)['encoding']
                 if 200 <= response.status_code < 300 or response.status_code == 412:
                     if 'arg1' in response.text:
                         acw_tc_cookie = f'acw_tc={session.cookies.get("acw_tc")};'
