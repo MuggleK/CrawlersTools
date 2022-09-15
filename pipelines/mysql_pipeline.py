@@ -136,7 +136,7 @@ class MysqlPipeline(object):
             raise ValueError("table_name: {} does not exist".format(table_name))
 
         format_str = ','.join(["%s" for _, ind in enumerate(item_key)])
-        insert = 'insert %s into %s (%s) values (%s)' % (mode, table_name, ','.join(item_key), format_str[:-1])
+        insert = 'insert %s into %s (%s) values (%s)' % (mode, table_name, ','.join(item_key), format_str)
 
         if isinstance(item, dict):
             # 插入单条数据
