@@ -7,7 +7,7 @@
 from io import BytesIO
 
 import ddddocr
-import requests
+import httpx
 from fontTools.ttLib import TTFont
 from loguru import logger
 from PIL import ImageFont, ImageDraw, Image
@@ -66,7 +66,7 @@ class FontDecrypt(object):
             'output': 'file',
             # 'filename1': '1.ttf'
         }
-        r = requests.post(url=url, headers=self.headers, data=data)
+        r = httpx.post(url=url, headers=self.headers, data=data)
         return r.content
 
     def font_process(self):
@@ -89,7 +89,7 @@ class FontDecrypt(object):
             ***
         """
         if self.font_url:
-            font_content = requests.get(self.font_url, headers=self.headers).content
+            font_content = httpx.get(self.font_url, headers=self.headers).content
         else:
             font_content = self.font_base64()
         self.font = ImageFont.FreeTypeFont(font_content, self.fontsize)

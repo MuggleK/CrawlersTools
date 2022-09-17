@@ -4,7 +4,7 @@
 # @Author  : MuggleK
 # @File    : proxy.py
 
-import requests
+import httpx
 
 from loguru import logger
 
@@ -17,7 +17,7 @@ def get_proxies(proxy_type="random"):
     """
     try:
         protocol = 'http://'
-        proxy = requests.get(f"http://192.168.9.3:5555/{proxy_type.lower()}").text.strip()
+        proxy = httpx.get(f"http://192.168.9.3:5555/{proxy_type.lower()}").text.strip()
         proxy = protocol + proxy
         return {protocol: proxy, 'https://': proxy}
     except Exception as err:
