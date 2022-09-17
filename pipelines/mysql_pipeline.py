@@ -112,13 +112,12 @@ class MysqlPipeline(object):
         cursor.close()
         sql_conn.close()
 
-    def insert(self, item, table_name, mode='ignore'):
+    def insert(self, item, table_name):
         """
         Mysql Auto Insert data
 
         :param item:
         :param table_name:
-        :param mode: ignore or update
         :return:
         """
         if not item:
@@ -136,7 +135,7 @@ class MysqlPipeline(object):
             raise ValueError("table_name: {} does not exist".format(table_name))
 
         format_str = ','.join(["%s" for _, ind in enumerate(item_key)])
-        insert = 'insert %s into %s (%s) values (%s)' % (mode, table_name, ','.join(item_key), format_str)
+        insert = 'INSERT IGNORE INTO %s (%s) VALUES (%s)' % (table_name, ','.join(item_key), format_str)
 
         if isinstance(item, dict):
             # 插入单条数据
