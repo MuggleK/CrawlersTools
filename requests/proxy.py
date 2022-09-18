@@ -9,15 +9,16 @@ import httpx
 from loguru import logger
 
 
-def get_proxies(proxy_type="random"):
+def get_proxies(proxy_url=None):
     """
-    qzd_proxy：亿牛云+星速云
-    @param proxy_type: 默认取随机
+    @param proxy_url: 代理请求链接
     @return:
     """
+    if not proxy_url: return
+
+    protocol = 'http://'
     try:
-        protocol = 'http://'
-        proxy = httpx.get(f"http://192.168.9.3:5555/{proxy_type.lower()}").text.strip()
+        proxy = httpx.get(proxy_url).text.strip()
         proxy = protocol + proxy
         return {protocol: proxy, 'https://': proxy}
     except Exception as err:

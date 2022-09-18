@@ -13,8 +13,8 @@ from charset_normalizer import detect
 from httpx import Client, Response
 from loguru import logger
 
-from CrawlersTools.requests.proxy import get_proxies
-from CrawlersTools.requests.random_ua import UserAgent
+from requests.proxy import get_proxies
+from requests.random_ua import UserAgent
 
 
 class BaseRequests(object):
@@ -36,21 +36,21 @@ class BaseRequests(object):
         headers=UserAgent(),
         method: str = "get",
         proxies: dict = None,
-        proxy_type: str = "random",
+        proxy_url: str = None,
         http2: bool = False,
         encoding: str = None,
         retry: int = 3,
         **kwargs
     ) -> Response:
         """
-        内置ali_waf & 知道创宇加速乐解密
+        内置ali_waf & 加速乐解密
 
         :param url: 请求链接
         :param session: 维持session可从外部传入
         :param headers: 请求头
         :param method:  具体请求方式
-        :param proxies: ip代理，失效自动切换
-        :param proxy_type:  代理类型，默认取随机
+        :param proxies: ip代理，配合proxy_url可失效自动切换
+        :param proxy_url:  获取代理链接
         :param http2:   是否使用http2.0协议
         :param retry:   请求重试次数，默认3次
         :param encoding:   指定编码，默认detect解析，效果同requests的apparent_encoding
@@ -60,7 +60,7 @@ class BaseRequests(object):
         """
         for _ in range(retry):
             try:
-                proxies = proxies if proxies else get_proxies(proxy_type)
+                proxies = proxies if proxies else get_proxies(proxy_url)
                 session = session or Client(
                     http2=http2,
                     headers=headers,
