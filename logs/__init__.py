@@ -4,4 +4,4 @@
 # @Author  : MuggleK
 # @File    : logs.py
 
-from CrawlersTools.logs.log import Logging
+from logs.log import Logging

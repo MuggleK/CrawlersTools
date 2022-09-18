@@ -4,6 +4,6 @@
 # @Author  : MuggleK
 # @File    : __init__.py
 
-from CrawlersTools.pipelines.mongo_pipeline import MongoPipeline
-from CrawlersTools.pipelines.mysql_pipeline import MysqlPipeline
-from CrawlersTools.pipelines.redis_pipeline import RedisPipeline
+from pipelines.mongo_pipeline import MongoPipeline
+from pipelines.mysql_pipeline import MysqlPipeline
+from pipelines.redis_pipeline import RedisPipeline

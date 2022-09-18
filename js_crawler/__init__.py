@@ -4,4 +4,4 @@
 # @Author  : MuggleK
 # @File    : __init__.py
 
-from CrawlersTools.js_crawler.transfer_js import int_overflow, right_shift, string_similar
+from js_crawler.transfer_js import int_overflow, right_shift, string_similar

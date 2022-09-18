@@ -4,5 +4,5 @@
 # @Author  : MuggleK
 # @File    : __init__.py
 
-from CrawlersTools.preprocess.bloom_filter import BloomFilter
-from CrawlersTools.preprocess.time_process import format_time, compare_time
+from preprocess.bloom_filter import BloomFilter
+from preprocess.time_process import format_time, compare_time
