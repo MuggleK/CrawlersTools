@@ -11,7 +11,8 @@ import unicodedata
 from lxml.html import fromstring, HtmlElement
 from lxml.html import etree
 from urllib.parse import urlparse, urljoin
-from .defaults import USELESS_TAG, TAGS_CAN_BE_REMOVE_IF_EMPTY, USELESS_ATTR, HIGH_WEIGHT_ARRT_KEYWORD
+
+from extractors.utils.settings import USELESS_TAG, TAGS_CAN_BE_REMOVE_IF_EMPTY, USELESS_ATTR, HIGH_WEIGHT_ARRT_KEYWORD
 
 
 def normalize_node(element: HtmlElement):
@@ -47,9 +48,7 @@ def normalize_node(element: HtmlElement):
 
 def html2element(html):
     try:
-        html = re.sub('</?br.*?>', '', html)
-        html = re.sub('<br>', '', html)
-        html = re.sub('<BR>', '', html)
+        html = re.sub('</?br.*?>', '', html).replace('<br>', '').replace('<BR>', '')
         html = re.sub(r'<script(.*?)>(.*?)</script>', '', html, 0, re.I | re.S)  # 去除javascript
     except:
         pass
@@ -145,22 +144,8 @@ def get_high_weight_keyword_pattern():
 
 def get_longest_common_sub_string(str1: str, str2: str) -> str:
     """
+
     获取两个字符串的最长公共子串。
-
-    构造一个矩阵，横向是字符串1，纵向是字符串2，例如：
-
-      青南是天才！？
-    听0 0 0 0 00 0
-    说0 0 0 0 00 0
-    青1 0 0 0 00 0
-    南0 1 0 0 00 0
-    是0 0 1 0 00 0
-    天0 0 0 1 00 0
-    才0 0 0 0 10 0
-    ！0 0 0 0 01 0
-
-    显然，只要斜对角线最长的就是最长公共子串
-
     :param str1:
     :param str2:
     :return:

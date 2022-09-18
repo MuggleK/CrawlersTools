@@ -9,8 +9,8 @@ from itertools import combinations
 
 from lxml.html import HtmlElement
 
-from .utils.utils import get_longest_common_sub_string
-from .utils.defaults import TITLE_HTAG_XPATH
+from extractors.utils.utils import get_longest_common_sub_string
+from extractors.utils.settings import TITLE_HTAG_XPATH, TITLE_META_XPATH, TITLE_META_XPATH_BAK
 
 
 class TitleExtractor:
@@ -21,17 +21,12 @@ class TitleExtractor:
             title_list = element.xpath(title_xpath)
             if title_list:
                 return title_list[0]
-            else:
-                return ''
         return ''
 
     @staticmethod
     def extract_by_title(element):
-        title_list = element.xpath('//meta[contains(@name, "Title")]/@content') or element.xpath('//meta[contains(@name, "title")]/@content')
-        if not title_list:
-            return ''
-        title = title_list
-        if title:
+        title_list = element.xpath(TITLE_META_XPATH) or element.xpath(TITLE_META_XPATH_BAK)
+        if title_list:
             return max(title_list, key=len)
         else:
             return ''
@@ -48,7 +43,7 @@ class TitleExtractor:
 
     @staticmethod
     def extract_common_str(element: HtmlElement) -> str:
-        h_tag_texts_list = element.xpath('(//h1//text() | //h2//text() | //h3//text() | //h4//text() | //h5//text() | //title//text() | //*[contains(@class, "title")]/text() | //*[contains(@class, "Title")]/text() | //*[contains(@id, "title")]/text() | //*[contains(@id, "Title")]/text())')
+        h_tag_texts_list = element.xpath(TITLE_HTAG_XPATH)
         new_title_list = list(combinations(h_tag_texts_list, 2))
         if len(new_title_list) == 1:
             new_title = str(max(list(new_title_list[0]), key=len))
