@@ -146,11 +146,9 @@ class MysqlPipeline(object):
                 if i == 'None':
                     i = None
                 data_list.append(i)
-            data_one = tuple(data_list)
+            execute_data = tuple(data_list)
 
-            execute_data = data_one if len(data_one[0]) > 1 else ''.join(data_one)
             cursor.execute(insert, execute_data)
-
             sql_conn.commit()
         elif isinstance(item, list):
             # 批量插入
