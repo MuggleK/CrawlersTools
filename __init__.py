@@ -4,6 +4,6 @@
 # @Author  : MuggleK
 # @File    : __init__.py
 
-from CrawlersTools.logs import Logging
-from CrawlersTools.preprocess.time_process import format_time, compare_time
-from CrawlersTools.requests import base_requests, get_proxies, UserAgent
+from logs import Logging
+from preprocess.time_process import format_time, compare_time
+from requests import base_requests, get_proxies, UserAgent
