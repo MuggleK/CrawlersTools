@@ -2,15 +2,15 @@
 # @Project : CrawlersTools
 # @Time    : 2022/8/19 20:23
 # @Author  : MuggleK
-# @File    : TitleExtractor.py
+# @File    : title_extractor.py
 
 import re
 from itertools import combinations
 
 from lxml.html import HtmlElement
 
-from extractors.utils.utils import get_longest_common_sub_string
-from extractors.utils.settings import TITLE_HTAG_XPATH, TITLE_META_XPATH, TITLE_META_XPATH_BAK
+from extractors.util.utils import get_longest_common_sub_string
+from extractors.util.settings import TITLE_HTAG_XPATH, TITLE_META_XPATH, TITLE_META_XPATH_BAK
 
 
 class TitleExtractor:

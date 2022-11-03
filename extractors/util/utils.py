@@ -2,7 +2,7 @@
 # @Project : CrawlersTools
 # @Time    : 2022/8/19 20:00
 # @Author  : MuggleK
-# @File    : utils.py
+# @File    : util.py
 
 import os
 import re
@@ -12,7 +12,7 @@ from lxml.html import fromstring, HtmlElement
 from lxml.html import etree
 from urllib.parse import urlparse, urljoin
 
-from extractors.utils.settings import USELESS_TAG, TAGS_CAN_BE_REMOVE_IF_EMPTY, USELESS_ATTR, HIGH_WEIGHT_ARRT_KEYWORD
+from extractors.util.settings import USELESS_TAG, TAGS_CAN_BE_REMOVE_IF_EMPTY, USELESS_ATTR, HIGH_WEIGHT_ARRT_KEYWORD
 
 
 def normalize_node(element: HtmlElement):
@@ -50,6 +50,7 @@ def html2element(html):
     try:
         html = re.sub('</?br.*?>', '', html).replace('<br>', '').replace('<BR>', '')
         html = re.sub(r'<script(.*?)>(.*?)</script>', '', html, 0, re.I | re.S)  # 去除javascript
+        html = re.sub(r'<style(.*?)>(.*?)</style>', '', html, 0, re.I | re.S)  # 去除javascript
     except:
         pass
     element = fromstring(html)

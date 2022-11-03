@@ -44,14 +44,14 @@ DATETIME_PATTERN = [
     r"(\d{2}年\d{1,2}月\d{1,2}日\s*?[1-24]\d时[0-60]\d分)([1-24]\d时)",
     r"(\d{1,2}月\d{1,2}日\s*?[0-1]?[0-9]:[0-5]?[0-9]:[0-5]?[0-9])",
     r"(\d{1,2}月\d{1,2}日\s*?[2][0-3]:[0-5]?[0-9]:[0-5]?[0-9])",
+    r"(\d{4}[-|/|.]\d{1,2}[-|/|.]\d{1,2})",     # TODO 年月日与符号优先级
+    r"(\d{2}[-|/|.]\d{1,2}[-|/|.]\d{1,2})",
     r"(\d{1,2}月\d{1,2}日\s*?[0-1]?[0-9]:[0-5]?[0-9])",
     r"(\d{1,2}月\d{1,2}日\s*?[2][0-3]:[0-5]?[0-9])",
     r"(\d{1,2}月\d{1,2}日\s*?[1-24]\d时[0-60]\d分)([1-24]\d时)",
-    r"(\d{4}[-|/|.]\d{1,2}[-|/|.]\d{1,2})",
-    r"(\d{2}[-|/|.]\d{1,2}[-|/|.]\d{1,2})",
     r"(\d{4}年\d{1,2}月\d{1,2}日)",
     r"(\d{2}年\d{1,2}月\d{1,2}日)",
-    r"(\d{1,2}月\d{1,2}日)"
+    r"(\d{1,2}月\d{1,2}日)",
 ]
 
 TITLE_HTAG_XPATH = '(//h1//text() | //h2//text() | //h3//text() | //h4//text() | //h5//text() | //title//text() | //*[contains(@class, "title")]/text() | //*[contains(@class, "Title")]/text() | //*[contains(@id, "title")]/text() | //*[contains(@id, "Title")]/text())'
@@ -104,8 +104,17 @@ PUBLISH_TIME_META = [  # 部分特别规范的网站，可以直接从 HTML 的 
     '//meta[starts-with(@name, "PublishDate")]/@content',
     '//meta[starts-with(@name, "publishdate")]/@content',
     '//meta[starts-with(@name, "PubDate")]/@content',
+    '//meta[starts-with(@name, "pubDate")]/@content',
+    '//meta[starts-with(@name, "pubdate")]/@content',
     '//meta[starts-with(@name, "pubtime")]/@content',
     '//meta[starts-with(@name, "_pubtime")]/@content',
     '//meta[starts-with(@name, "weibo: article:create_at")]/@content',
     '//meta[starts-with(@pubdate, "pubdate")]/@content',
+    '//meta[starts-with(@name, "firstpublishedtime")]/@content',
+    '//*[contains(text(), "发布日期")]//text()',
+    '//*[contains(text(), "发布时间")]//text()',
+    '//*[contains(text(), "发布日期")]/..//text()',
+    '//*[contains(text(), "发布时间")]/..//text()',
+    '//*[contains(text(), "发布日期")]/../..//text()',
+    '//*[contains(text(), "发布时间")]/../..//text()',
 ]

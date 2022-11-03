@@ -18,6 +18,7 @@ def format_time(time_str, struct_return=False):
 
     struct_time = None
     time_format_str = "%Y-%m-%d"
+    time_old_format = '%b %d %Y %I:%M%p'
     try:
         timestamp = int(str(time_str)[:10])
         if timestamp >= 0:
@@ -35,6 +36,8 @@ def format_time(time_str, struct_return=False):
             day = time_str.group(3)
             time_str = year + "-" + month + "-" + day
             struct_time = time.strptime(time_str, time_format_str) if struct_return else time_str
+    if not struct_time and time_str:
+        struct_time = datetime.datetime.strptime(time_str, time_old_format)
 
     if struct_return:
         return struct_time
