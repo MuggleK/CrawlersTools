@@ -71,7 +71,18 @@ class AutoThread(object):
                     child_thread = ExcThread(target=task_fun, args=(self.arg_list,)) if self.arg_list else ExcThread(
                         target=task_fun)  # 注意传入的参数一定是一个元组!
                 else:
-                    task_arg = self.arg_list.pop() if self.arg_list else None
+                    if isinstance(self.arg_list, list):
+                        task_arg = self.arg_list.pop() if self.arg_list else None
+                    else:
+                        try:
+                            # 当采集的数据多，列表占用内存高，此时接受一个生成器，适配大规模爬取以及节省内存
+                            task_arg = next(self.arg_list)
+                        except StopIteration:
+                            self.arg_list = None
+                            task_arg = None
+                        except:
+                            self.arg_list = None
+                            task_arg = None
                     thread_lock.release()
                     if not (task_arg or task_arg == 0):
                         break
