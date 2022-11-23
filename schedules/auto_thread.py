@@ -6,6 +6,7 @@
 
 import time
 import random
+from inspect import isgenerator
 
 from threading import Thread, active_count, Lock
 from traceback import format_exc
@@ -44,47 +45,46 @@ class AutoThread(object):
     """
     def __init__(self, thread_num: int, fun, arg_list=None):
         self.thread_num = thread_num
-        self.fun = fun
-        self.arg_list = arg_list
+        self.arg = None if arg_list is None else arg_list  # 并发函数时传参
+        self.fun = (f for f in fun) if isinstance(fun, list) else fun
+        self.args = (arg for arg in arg_list) if isinstance(arg_list, list) else arg_list
+        self.flag = True if isgenerator(self.fun) else False     # True 并发函数 False并发参数
         self.os_threads = active_count()
-
-    def task_status(self):
-        return self.fun if isinstance(self.fun, list) else self.arg_list
 
     def wait(self):
         while active_count() > self.os_threads:
             time.sleep(.25)
 
+    @staticmethod
+    def next_task(task):
+        try:
+            task_arg = next(task)
+        except StopIteration:
+            task_arg = None
+
+        return task_arg
+
     def main_thread(self):
-        while self.task_status():
+        loop_flag = True
+        while loop_flag:
             active_thread = active_count()
             if active_count() >= self.thread_num:
                 time.sleep(random.uniform(0, 1))
                 continue
             for _ in range(self.thread_num - active_thread + self.os_threads):
                 thread_lock.acquire()
-                if isinstance(self.fun, list):
-                    task_fun = self.fun.pop() if self.fun else None
+                if self.flag:
+                    task_fun = self.next_task(self.fun)
                     thread_lock.release()
                     if not task_fun:
+                        loop_flag = False
                         break
-                    child_thread = ExcThread(target=task_fun, args=(self.arg_list,)) if self.arg_list else ExcThread(
-                        target=task_fun)  # 注意传入的参数一定是一个元组!
+                    child_thread = ExcThread(target=task_fun) if self.arg is None else ExcThread(target=task_fun, args=(self.arg,))  # 注意传入的参数一定是一个元组!
                 else:
-                    if isinstance(self.arg_list, list):
-                        task_arg = self.arg_list.pop() if self.arg_list else None
-                    else:
-                        try:
-                            # 当采集的数据多，列表占用内存高，此时接受一个生成器，适配大规模爬取以及节省内存
-                            task_arg = next(self.arg_list)
-                        except StopIteration:
-                            self.arg_list = None
-                            task_arg = None
-                        except:
-                            self.arg_list = None
-                            task_arg = None
+                    task_arg = self.next_task(self.args)
                     thread_lock.release()
                     if not (task_arg or task_arg == 0):
+                        loop_flag = False
                         break
                     child_thread = ExcThread(target=self.fun, args=(task_arg,))  # 注意传入的参数一定是一个元组!
 
