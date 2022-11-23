@@ -52,3 +52,8 @@ class MongoPipeline:
 
     def update(self, collection_name, query, update):
         self.db.get_collection(collection_name).update(query, update, upsert=True)
+
+    def aggregate(self, collection_name, query):
+        records = self.db.get_collection(collection_name).aggregate(query)
+        for record in records:
+            yield record

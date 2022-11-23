@@ -9,8 +9,8 @@ from itertools import combinations
 
 from lxml.html import HtmlElement
 
-from extractors.util.utils import get_longest_common_sub_string
-from extractors.util.settings import TITLE_HTAG_XPATH, TITLE_META_XPATH, TITLE_META_XPATH_BAK
+from extractors.utils.similarity import get_longest_common_sub_string
+from extractors.utils.settings import TITLE_HTAG_XPATH, TITLE_META_XPATH, TITLE_META_XPATH_BAK
 
 
 class TitleExtractor:

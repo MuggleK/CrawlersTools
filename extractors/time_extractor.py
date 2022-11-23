@@ -5,8 +5,10 @@
 # @File    : time_extractor.py
 
 import re
+
 from lxml.html import HtmlElement
-from extractors.util.settings import DATETIME_PATTERN, PUBLISH_TIME_META
+
+from extractors.utils.settings import DATETIME_PATTERN, PUBLISH_TIME_META
 from preprocess import format_time
 
 
