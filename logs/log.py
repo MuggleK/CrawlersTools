@@ -8,7 +8,6 @@ import time
 
 from loguru import logger
 
-expire_date = "10 days"
 time_format = time.strftime("%Y_%m_%d")
 log_format = "{time:YYYY-MM-DD HH:mm:ss}|{level}| {name}:{function}:{line}| {message}"
 
@@ -32,7 +31,7 @@ class Logging(object):
 
         return cls.__instance
 
-    def __init__(self, log_path):
+    def __init__(self, log_path, expire_date="10 days"):
         logger.add(f"{log_path}/log_{time_format}_info.log", encoding="utf-8", enqueue=True, retention="1 months", level="INFO", format=log_format)
         logger.add(f"{log_path}/log_{time_format}_error.log", encoding="utf-8", enqueue=True, retention=expire_date, level="ERROR", format=log_format)
         logger.add(f"{log_path}/log_{time_format}_debug.log", encoding="utf-8", enqueue=True, retention=expire_date, level="DEBUG", format=log_format)
