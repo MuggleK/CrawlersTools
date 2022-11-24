@@ -6,33 +6,27 @@
 
 import re
 
-from lxml.html import HtmlElement
+from lxml.html import etree
 
-from extractors.utils.settings import DATETIME_PATTERN, PUBLISH_TIME_META
+from extractors.base import BaseExtractor
+from extractors.utils.settings import DATETIME_PATTERN, PUBLISH_TIME_META, TITLE_EXTRACTOR_USELESS_TAGS
+from extractors.schemas.element import Element
 from preprocess import format_time
 
 
-class TimeExtractor:
-    def __init__(self):
-        self.time_pattern = DATETIME_PATTERN
-
-    def extractor(self, element: HtmlElement, publish_time_xpath: str = '') -> tuple:
-        publish_time = (self.extract_from_user_xpath(publish_time_xpath, element)  # 用户指定的 Xpath 是第一优先级
-                        or self.extract_from_meta(element)   # 第二优先级从 Meta 中提取
-                        or self.extract_from_text(element))  # 最坏的情况从正文中提取
-
-        return format_time(publish_time)
+class TimeExtractor(BaseExtractor):
 
     @staticmethod
-    def extract_from_user_xpath(publish_time_xpath: str, element: HtmlElement) -> str:
+    def extract_from_xpath(element: Element, publish_time_xpath: str) -> str:
         if publish_time_xpath:
             publish_time = ''.join(element.xpath(publish_time_xpath))
             return publish_time
         return ''
 
-    def extract_from_text(self, element: HtmlElement) -> str:
+    @staticmethod
+    def extract_from_text(element: Element) -> str:
         text = ''.join(element.xpath('.//text()'))
-        for dt in self.time_pattern:
+        for dt in DATETIME_PATTERN:
             dt_obj = re.search(dt, text)
             if dt_obj:
                 return dt_obj.group(1)
@@ -40,7 +34,7 @@ class TimeExtractor:
             return ''
 
     @staticmethod
-    def extract_from_meta(element: HtmlElement) -> str:
+    def extract_from_meta(element: Element) -> str:
         """
         优先匹配 META 数据
         :param element: 网页源代码对应的Dom 树
@@ -51,4 +45,13 @@ class TimeExtractor:
             if publish_time:
                 return ''.join(publish_time)
         return ''
+    
+    def process(self, element: Element):
+        # remove tag and its content
+        etree.strip_elements(element, *TITLE_EXTRACTOR_USELESS_TAGS)
 
+        publish_time = (self.extract_from_xpath(element, publish_time_xpath=self.kwargs.get("publish_time_xpath"))
+                        or self.extract_from_meta(element)
+                        or self.extract_from_text(element))
+
+        return format_time(publish_time)

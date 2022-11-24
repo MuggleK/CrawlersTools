@@ -6,14 +6,17 @@
 
 import re
 from itertools import combinations
+from lxml.html import etree
 
-from lxml.html import HtmlElement
-
+from extractors.base import BaseExtractor
 from extractors.utils.similarity import get_longest_common_sub_string
-from extractors.utils.settings import TITLE_HTAG_XPATH, TITLE_META_XPATH, TITLE_META_XPATH_BAK
+from extractors.utils.settings import (
+    TITLE_HTAG_XPATH, TITLE_META_XPATH, TITLE_META_XPATH_BAK, TITLE_EXTRACTOR_USELESS_TAGS, PUNCTUATION_ALPHA_PATTERN
+)
+from extractors.schemas.element import Element
 
 
-class TitleExtractor:
+class TitleExtractor(BaseExtractor):
 
     @staticmethod
     def extract_by_xpath(element, title_xpath):
@@ -34,6 +37,7 @@ class TitleExtractor:
     @staticmethod
     def extract_by_htag(element):
         title_list = element.xpath(TITLE_HTAG_XPATH)
+        title_list = [re.sub(PUNCTUATION_ALPHA_PATTERN, "", phrase) for phrase in title_list]
         if not title_list:
             return ''
         index_string = [(index, ''.join(filter(str.isalnum, string))) for index, string in enumerate(title_list)]
@@ -42,7 +46,7 @@ class TitleExtractor:
         return title_list[string_list.index(max_string)]
 
     @staticmethod
-    def extract_common_str(element: HtmlElement) -> str:
+    def extract_common_str(element: Element) -> str:
         h_tag_texts_list = element.xpath(TITLE_HTAG_XPATH)
         new_title_list = list(combinations(h_tag_texts_list, 2))
         if len(new_title_list) == 1:
@@ -56,8 +60,11 @@ class TitleExtractor:
             return new_title if len(new_title) > 4 and sub_string else ''
         return ''
 
-    def extract(self, element: HtmlElement, title_xpath: str = '') -> str:
-        title = (self.extract_by_xpath(element, title_xpath)
+    def process(self, element: Element):
+        # remove tag and its content
+        etree.strip_elements(element, *TITLE_EXTRACTOR_USELESS_TAGS)
+
+        title = (self.extract_by_xpath(element, title_xpath=self.kwargs.get("title_xpath"))
                  or self.extract_by_title(element)
                  or self.extract_common_str(element)
                  or self.extract_by_htag(element)

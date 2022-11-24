@@ -4,8 +4,6 @@
 # @Author  : MuggleK
 # @File    : content_extractor.py
 
-import re
-
 import numpy as np
 from lxml.html import fromstring
 
@@ -13,21 +11,7 @@ from extractors.schemas.element import Element
 from extractors.utils.preprocess import preprocess4content_extractor
 from extractors.base import BaseExtractor
 from extractors.utils.element import descendants_of_body
-from extractors.utils.settings import ERROR_NAV_LIST 
-
-
-SPECIAL_SYMBOL = [
-    (re.compile(r'&quot;', re.I | re.S), '\"'),
-    (re.compile(r'&amp;', re.I | re.S), '&'),
-    (re.compile(r'&lt;', re.I | re.S), '<'),
-    (re.compile(r'&gt;', re.I | re.S), '>'),
-    (re.compile(r'&nbsp;', re.I | re.S), ' '),
-    (re.compile(r'&#34;', re.I | re.S), '\"'),
-    (re.compile(r'&#38;', re.I | re.S), '&'),
-    (re.compile(r'&#60;', re.I | re.S), '<'),
-    (re.compile(r'&#62;', re.I | re.S), '>'),
-    (re.compile(r'&#160;', re.I | re.S), ' '),
-]
+from extractors.utils.settings import ERROR_NAV_LIST
 
 
 class ContentExtractor(BaseExtractor):
@@ -83,7 +67,7 @@ class ContentExtractor(BaseExtractor):
         element = fromstring(html=html)  # html有多个，fromstring默认取第一个 TODO 解析不了非规范html
         descendants_list = list(element.iterdescendants())
 
-        # remove error navgate tags
+        # remove error navigate tags
         remove_index_list = list()
         for index, descendant in enumerate(descendants_list):
             if descendant.text is None:
