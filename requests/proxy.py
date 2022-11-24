@@ -11,6 +11,7 @@ from loguru import logger
 
 def get_proxies(proxy_url=None):
     """
+    默认httpx代理模式
     @param proxy_url: 代理请求链接
     @return:
     """
