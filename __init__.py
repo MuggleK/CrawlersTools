@@ -11,3 +11,5 @@ from preprocess.time_process import format_time, compare_time
 from requests import base_requests, get_proxies, UserAgent
 
 from pipelines import MysqlPipeline, MongoPipeline, RedisPipeline
+
+from extractors import PolicyExtractor

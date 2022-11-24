@@ -54,7 +54,7 @@ class ContentExtractor(BaseExtractor):
         paragraphs = list(filter(lambda x: x, paragraphs))
         text = '\n'.join(paragraphs)
         text = text.strip()
-        return text, density_of_text_std
+        return text
     
     def extract(self, html, **kwargs):
         """
