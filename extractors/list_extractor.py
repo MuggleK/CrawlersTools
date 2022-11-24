@@ -5,33 +5,30 @@ Author: xiaobin.zhu
 since: 2022-11-24 14:24:09
 LastAuthor: xiaobin.zhu
 LastEditTime: 2022-11-24 14:24:09
-Description: write something
+Description: extract list from index page
 FilePath: list_extractor
 """
 import math
 import operator
-from loguru import logger
+
+# from loguru import logger
 import numpy as np
 from collections import defaultdict
 from urllib.parse import urljoin
+from lxml.html import fromstring
+
 from extractors.utils.cluster import cluster_dict
-from extractors.utils.config import (
-    LIST_AVG_LENGTH,
-    LIST_MAX_LENGTH,
-    LIST_MIN_LENGTH,
-    LIST_MIN_NUMBER,
-    ADDTION_RIGHT_NUM,
-    SIMILARITY_THRESHOLD,
-    Directory_filter_error_title,
-    Hight_weight_error_keyword,
+from extractors.utils.settings import (
+    LIST_AVG_LENGTH, LIST_MAX_LENGTH, LIST_MIN_LENGTH, LIST_MIN_NUMBER, ADDTION_RIGHT_NUM, SIMILARITY_THRESHOLD,
+    HIGH_WEIGHT_ERROR_KEYWORD, DIRECTORY_ERROR_TITLE, SPECIAL_SYMBOL_MAP,
 )
 from extractors.utils.preprocess import preprocess4list_extractor
 from extractors.base import BaseExtractor
-from extractors.utils.element import (
-    calc_a_descendants_text_of_avg_length,
-    descendants_of_body,
-)
+from extractors.utils.element import calc_a_descendants_text_of_avg_length, descendants_of_body
 from extractors.schemas.element import Element
+
+
+AVG_LENGTH = (LIST_MIN_LENGTH + LIST_MAX_LENGTH) / 2
 
 
 class ListExtractor(BaseExtractor):
@@ -39,24 +36,8 @@ class ListExtractor(BaseExtractor):
     extract list from index page
     """
 
-    def __init__(
-        self,
-        min_number=LIST_MIN_NUMBER,
-        min_length=LIST_MIN_LENGTH,
-        max_length=LIST_MAX_LENGTH,
-        similarity_threshold=SIMILARITY_THRESHOLD,
-    ):
-        """
-        init list extractor
-        """
-        super(ListExtractor, self).__init__()
-        self.min_number = min_number
-        self.min_length = min_length
-        self.max_length = max_length
-        self.avg_length = (self.min_length + self.max_length) / 2
-        self.similarity_threshold = similarity_threshold
-
-    def _probability_of_title_with_length(self, length):
+    @staticmethod
+    def _probability_of_title_with_length(length):
         """
         get the probability of title according to length
         import matplotlib.pyplot as plt
@@ -68,11 +49,12 @@ class ListExtractor(BaseExtractor):
         :return:
         """
         sigma = 6
-        return np.exp(-1 * ((length - self.avg_length) ** 2) / (2 * (sigma**2))) / (
+        return np.exp(-1 * ((length - AVG_LENGTH) ** 2) / (2 * (sigma**2))) / (
             math.sqrt(2 * np.pi) * sigma
         )
 
-    def _build_clusters(self, element):
+    @staticmethod
+    def _build_clusters(element):
         """
         build candidate clusters according to element
         :return:
@@ -84,28 +66,28 @@ class ListExtractor(BaseExtractor):
             if len(descendant.a_descendants) > 5 and descendant.number_of_siblings == 1:
                 if descendant.parent_selector in ["html>body", "html"]:
                     continue
-                if descendant.a_descendants_group_text_min_length > self.max_length:
+                if descendant.a_descendants_group_text_min_length > LIST_MAX_LENGTH:
                     continue
-                if descendant.a_descendants_group_text_max_length < self.min_length:
+                if descendant.a_descendants_group_text_max_length < LIST_MIN_LENGTH:
                     continue
                 for link in descendant.a_descendants:
                     descendants_tree[descendant.parent_selector].append(link)
                 continue
             # if one element does not have enough siblings, it can not become a child of candidate element
-            if descendant.number_of_siblings + 1 < self.min_number:
+            if descendant.number_of_siblings + 1 < LIST_MIN_NUMBER:
                 continue
             if calc_a_descendants_text_of_avg_length(descendant) < LIST_AVG_LENGTH:
                 continue
             # if min length is larger than specified max length, it can not become a child of candidate element
-            if descendant.a_descendants_group_text_min_length > self.max_length:
+            if descendant.a_descendants_group_text_min_length > LIST_MAX_LENGTH:
                 continue
             # if max length is smaller than specified min length, it can not become a child of candidate element
-            if descendant.a_descendants_group_text_max_length < self.min_length:
+            if descendant.a_descendants_group_text_max_length < LIST_MIN_LENGTH:
                 continue
             # if descendant.a_descendants_group_text_avg_length < 10:
             #     continue
             # descendant element must have same siblings which their similarity should not below similarity_threshold
-            if descendant.similarity_with_siblings < self.similarity_threshold:
+            if descendant.similarity_with_siblings < SIMILARITY_THRESHOLD:
                 continue
             descendants_tree[descendant.parent_selector].append(descendant)
         if len(descendants_tree) == 0:
@@ -124,7 +106,8 @@ class ListExtractor(BaseExtractor):
 
         return clusters
 
-    def _evaluate_cluster(self, cluster):
+    @staticmethod
+    def _evaluate_cluster(cluster):
         """
         calculate score of cluster using similarity, numbers, or other info
         :param cluster:
@@ -150,7 +133,8 @@ class ListExtractor(BaseExtractor):
         # * clusters_score[cluster_id]['probability_of_title_with_length']
         return score
 
-    def _extend_cluster(self, cluster):
+    @staticmethod
+    def _extend_cluster(cluster):
         """
         extend cluster's elements except for missed children
         :param cluster:
@@ -176,7 +160,7 @@ class ListExtractor(BaseExtractor):
                     result.append(sibling_selector)
 
         cluster = sorted(cluster, key=lambda x: x.nth)
-        logger.debug(f"cluster after extend {cluster}")
+        # logger.debug(f"cluster after extend {cluster}")
         return cluster
 
     def _best_cluster(self, clusters):
@@ -186,10 +170,10 @@ class ListExtractor(BaseExtractor):
         :return:
         """
         if not clusters:
-            logger.debug("there is on cluster, just return empty result")
+            # logger.debug("there is on cluster, just return empty result")
             return []
         if len(clusters) == 1:
-            logger.debug("there is only one cluster, just return first cluster")
+            # logger.debug("there is only one cluster, just return first cluster")
             return clusters[0]
         # choose best cluster using score
         clusters_score = defaultdict(dict)
@@ -204,7 +188,7 @@ class ListExtractor(BaseExtractor):
             if clusters_score[cluster_id]["clusters_score"] > clusters_score_max:
                 clusters_score_max = clusters_score[cluster_id]["clusters_score"]
                 clusters_score_arg_max = cluster_id
-        logger.debug(f"clusters_score {clusters_score}")
+        # logger.debug(f"clusters_score {clusters_score}")
         best_cluster = clusters[clusters_score_arg_max]
         return best_cluster
 
@@ -235,7 +219,7 @@ class ListExtractor(BaseExtractor):
                         probability_of_title_with_length * ADDTION_RIGHT_NUM
                     )
 
-                if len(descendant_text) > self.max_length:
+                if len(descendant_text) > LIST_MAX_LENGTH:
                     probability_of_title_with_length = (
                         probability_of_title_with_length * ADDTION_RIGHT_NUM
                     )
@@ -256,7 +240,7 @@ class ListExtractor(BaseExtractor):
                         probability_of_title_with_length = (
                             probability_of_title_with_length / ADDTION_RIGHT_NUM
                         )
-                for ss in Hight_weight_error_keyword:
+                for ss in HIGH_WEIGHT_ERROR_KEYWORD:
                     if ss in descendant_text:
                         probability_of_title_with_length = (
                             probability_of_title_with_length / ADDTION_RIGHT_NUM
@@ -266,7 +250,7 @@ class ListExtractor(BaseExtractor):
                 probabilities_of_title[path].append(probability_of_title)
         probabilities_of_title_bak = {}
         for key in probabilities_of_title:
-            if len(probabilities_of_title[key]) > self.min_number - 2:
+            if len(probabilities_of_title[key]) > LIST_MIN_NUMBER - 2:
                 probabilities_of_title_bak[key] = probabilities_of_title[key]
         probabilities_of_title = probabilities_of_title_bak
         # get most probable tag_path
@@ -278,7 +262,7 @@ class ListExtractor(BaseExtractor):
         best_path = max(probabilities_of_title_avg.items(), key=operator.itemgetter(1))[
             0
         ]
-        logger.debug(f"best tag path {best_path}")
+        # logger.debug(f"best tag path {best_path}")
 
         # extract according to best tag path
         result = []
@@ -301,10 +285,10 @@ class ListExtractor(BaseExtractor):
                 if path_raw != best_path:  # and descendant.text == ""
                     continue
                 title = element.attrib.get("title") or element.text
-                if title in Directory_filter_error_title or len(title) < 2:
+                if title in DIRECTORY_ERROR_TITLE or len(title) < 2:
                     continue
                 flag = False
-                for ss in Hight_weight_error_keyword:
+                for ss in HIGH_WEIGHT_ERROR_KEYWORD:
                     if ss in title:
                         flag = True
                         break
@@ -340,10 +324,10 @@ class ListExtractor(BaseExtractor):
                 if path_raw != best_path:  # and descendant.text == ""
                     continue
                 title = descendant.attrib.get("title") or descendant.text
-                if title in Directory_filter_error_title or len(title) < 2:
+                if title in DIRECTORY_ERROR_TITLE or len(title) < 2:
                     continue
                 flag = False
-                for ss in Hight_weight_error_keyword:
+                for ss in HIGH_WEIGHT_ERROR_KEYWORD:
                     if ss in title:
                         flag = True
                         break
@@ -384,26 +368,26 @@ class ListExtractor(BaseExtractor):
 
         # build clusters
         clusters = self._build_clusters(element)
-        logger.debug(f"after build clusters {clusters}")
+        # logger.debug(f"after build clusters {clusters}")
 
         # choose best cluster
         best_cluster = self._best_cluster(clusters)
-        logger.debug(f"best cluster {best_cluster}")
+        # logger.debug(f"best cluster {best_cluster}")
 
         extended_cluster = self._extend_cluster(best_cluster)
-        logger.debug(f"extended cluster {extended_cluster}")
+        # logger.debug(f"extended cluster {extended_cluster}")
 
         # extract result from best cluster
         return self._extract_cluster(best_cluster)
 
+    def extract(self, html, **kwargs):
+        self.kwargs = kwargs
+        for key, value in SPECIAL_SYMBOL_MAP.items():
+            html = html.replace(key, value)
 
-list_extractor = ListExtractor()
+        element = fromstring(html=html)  # html有多个，fromstring默认取第一个 TODO 解析不了非规范html
+        if self.kwargs.get("list_xpath"):
+            return ''.join(element.xpath(self.kwargs.get("list_xpath")))
 
-
-def extract_list(html, **kwargs):
-    """
-    extract list from index html
-    :param: base_url
-    :return:
-    """
-    return list_extractor.extract(html, **kwargs)
+        element.__class__ = Element
+        return self.process(element)

@@ -4,6 +4,19 @@
 # @Author  : MuggleK
 # @File    : settings.py
 
+# list settings
+LIST_MIN_NUMBER = 5
+LIST_MIN_LENGTH = 8
+LIST_MAX_LENGTH = 50
+SIMILARITY_THRESHOLD = 0.8
+
+LIST_AVG_LENGTH = 9
+ADDTION_RIGHT_NUM = 10000
+
+HIGH_WEIGHT_ERROR_KEYWORD = ["ICP备", "公网安备", "网公安备", "备案序号：", "网站地图"]
+DIRECTORY_ERROR_TITLE = ["首页", "下一页", "解读", "图解", "详细", "阅读全文", "标题", "[详细]"]
+
+
 # common settings
 SPECIAL_SYMBOL_MAP = {
     '&quot;': '\"',

@@ -8,7 +8,7 @@ from lxml.html import fromstring, HtmlElement
 from extractors.schemas.element import Element
 from extractors.utils.similarity import similarity
 
-PUNCTUATION = set("""！，。？、；：“”‘’《》%（）<>{}「」【】*～`,.?:;'"!%()""")
+PUNCTUATION = set('''！，。？、；：“”‘’《》%（）<>{}「」【】*～`,.?:;'"!%()''')
 
 
 def remove_element(element: Element):
@@ -63,7 +63,7 @@ def file2element(file_path):
     """
     if not exists(file_path):
         return
-    with open(file_path, encoding="utf-8") as f:
+    with open(file_path, encoding='utf-8') as f:
         return html2element(f.read())
 
 
@@ -75,10 +75,10 @@ def selector(element: Element):
     :return:
     """
     if element is None:
-        return ""
+        return ''
     p = parent(element)
     if p is not None:
-        return selector(p) + ">" + alias(element)
+        return selector(p) + '>' + alias(element)
     return element.alias
 
 
@@ -90,10 +90,10 @@ def path_raw(element: Element):
     :return:
     """
     if element is None:
-        return ""
+        return ''
     p = parent(element)
     if p is not None:
-        return path_raw(p) + "/" + element.tag
+        return path_raw(p) + '/' + element.tag
     return element.tag
 
 
@@ -105,11 +105,11 @@ def path(element: Element):
     :return:
     """
     if element is None:
-        return ""
+        return ''
     result = path_raw(element)
     # get nth-child
     nth = len(list(element.itersiblings(preceding=True))) + 1
-    result += f":nth-child({nth})"
+    result += f':nth-child({nth})'
     return result
 
 
@@ -122,7 +122,7 @@ def a_descendants(element: Element):
     if element is None:
         return []
     descendants = []
-    for descendant in element.xpath(".//a"):
+    for descendant in element.xpath('.//a'):
         descendant.__class__ = Element
         descendants.append(descendant)
     return descendants
@@ -217,19 +217,19 @@ def alias(element: Element):
     :return:
     """
     if element is None:
-        return ""
+        return ''
     tag = element.tag
     # skip nth-child
-    if tag in ["html", "body"]:
+    if tag in ['html', 'body']:
         return tag
     attribs = [tag]
     for k, v in element.attrib.items():
-        k, v = re.sub(r"\s*", "", k), re.sub(r"\s*", "", v)
-        # if k in ["class", "id", "name"]: attribs.append(f'[@{k}="{v}"]' if v else f'[{k}]')
-    result = "".join(attribs)
+        k, v = re.sub(r'\s*', '', k), re.sub(r'\s*', '', v)
+        attribs.append(f'[{k}="{v}"]' if v else f'[{k}]')
+    result = ''.join(attribs)
     # get nth-child
     nth = len(list(element.itersiblings(preceding=True))) + 1
-    result += f":nth-child({nth})"
+    result += f':nth-child({nth})'
     return result
 
 
@@ -241,7 +241,7 @@ def children_of_head(element: Element):
     """
     if element is None:
         return []
-    body_xpath = "//head"
+    body_xpath = '//head'
     body_element = element.xpath(body_xpath)
     if body_element:
         body_element.__class__ = Element
@@ -257,7 +257,7 @@ def descendants_of_body(element: Element):
     """
     if element is None:
         return []
-    body_xpath = "//*"
+    body_xpath = '//*'
     elements = element.xpath(body_xpath)
     if elements:
         elements[0].__class__ = Element
@@ -273,8 +273,8 @@ def text(element: Element):
     """
     if element is None:
         return 0
-    text = "".join(element.xpath(".//text()"))
-    text = re.sub(r"\s*", "", text, flags=re.S)
+    text = ''.join(element.xpath('.//text()'))
+    text = re.sub(r'\s*', '', text, flags=re.S)
     # text = ''.join(re.findall(r'[\u4e00-\u9fa5]+', text))
     return text
 
@@ -350,8 +350,8 @@ def number_of_a_char(element: Element):
     """
     if element is None:
         return 0
-    text = "".join(element.xpath(".//a//text()"))
-    text = re.sub(r"\s*", "", text, flags=re.S)
+    text = ''.join(element.xpath('.//a//text()'))
+    text = re.sub(r'\s*', '', text, flags=re.S)
     return len(text)
 
 
@@ -374,7 +374,7 @@ def number_of_p_children(element: Element):
     """
     if element is None:
         return 0
-    return len(element.xpath("./p"))
+    return len(element.xpath('./p'))
 
 
 def number_of_p_descendants(element: Element):
@@ -410,7 +410,7 @@ def number_of_a_descendants(element: Element):
     """
     if element is None:
         return 0
-    return len(element.xpath(".//a"))
+    return len(element.xpath('.//a'))
 
 
 def number_of_punctuation(element: Element):
@@ -421,8 +421,8 @@ def number_of_punctuation(element: Element):
     """
     if element is None:
         return 0
-    text = "".join(element.xpath(".//text()"))
-    text = re.sub(r"\s*", "", text, flags=re.S)
+    text = ''.join(element.xpath('.//text()'))
+    text = re.sub(r'\s*', '', text, flags=re.S)
     punctuations = [c for c in text if c in PUNCTUATION]
     return len(punctuations)
 
@@ -456,17 +456,11 @@ def number_of_clusters(element: Element, tags=None):
     :param element:
     :return:
     """
-    from extractors.extractors.list import (
-        LIST_MIN_NUMBER,
-        LIST_MAX_LENGTH,
-        LIST_MIN_LENGTH,
-        SIMILARITY_THRESHOLD,
-    )
-
+    from extractors.utils.settings import LIST_MIN_NUMBER, LIST_MAX_LENGTH, LIST_MIN_LENGTH, SIMILARITY_THRESHOLD
     if element is None:
         return 0
     if tags and not isinstance(tags, (list, tuple)):
-        logger.error("you must pass tags arg as list or tuple")
+        logger.error('you must pass tags arg as list or tuple')
     descendants_tree = defaultdict(list)
     descendants = descendants_of_body(element)
     for descendant in descendants:
@@ -511,9 +505,8 @@ def density_of_text(element: Element):
     # if denominator is 0, just return 0
     if element.number_of_descendants - element.number_of_a_descendants == 0:
         return 0
-    return (element.number_of_char - element.number_of_a_char) / (
-        element.number_of_descendants - element.number_of_a_descendants
-    )
+    return (element.number_of_char - element.number_of_a_char) / \
+           (element.number_of_descendants - element.number_of_a_descendants)
 
 
 def density_of_punctuation(element: Element):
@@ -525,9 +518,8 @@ def density_of_punctuation(element: Element):
     :param element:
     :return:
     """
-    result = (element.number_of_char - element.number_of_a_char) / (
-        element.number_of_punctuation + 1
-    )
+    result = (element.number_of_char - element.number_of_a_char) / \
+             (element.number_of_punctuation + 1)
     # result should not be zero
     return result or 1
 
