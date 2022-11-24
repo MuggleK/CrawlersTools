@@ -12,3 +12,5 @@ PyMySQL==0.9.3
 redis==4.1.3
 PyYAML==5.3.1
 lxml==4.9.1
+numpy==1.21.6
+Distance==0.1.3

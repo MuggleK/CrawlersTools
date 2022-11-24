@@ -4,6 +4,20 @@
 # @Author  : MuggleK
 # @File    : settings.py
 
+# common settings
+SPECIAL_SYMBOL_MAP = {
+    '&quot;': '\"',
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&nbsp;': ' ',
+    '&#34;': '\"',
+    '&#38;': '&',
+    '&#60;': '<',
+    '&#62;': '>',
+    '&#160;': ' '
+}
+
 ERROR_NAV_LIST = ['Copyright', 'ICP备', 'QQ空间', '上一篇', '下一篇', '专题专栏', '主题分类', '主题词：', '二维码', '互动交流', '人人网', '优质工程评审',
                   '使用帮助', '依申请公开', '信息公开', '信息公开制度', '信息公开年报', '信息公开指南', '信息发布', '免责声明', '党建专栏', '党建工作', '党组织概况',
                   '公示公告', '公网安备', '关闭窗口', '分享到', '分类：', '办事服务', '加入收藏', '区政府文件', '协会文件', '协会章程', '协会简介', '协会领导', '发布日期',
@@ -16,6 +30,18 @@ ERROR_NAV_LIST = ['Copyright', 'ICP备', 'QQ空间', '上一篇', '下一篇', '
                   '联系我们', '腾讯微博', '行政规范性文件', '责任编辑', '返回顶部', '进度查询', '通知公告', '部门规章', '重大决策预公开', '门户网站', '预决算公开', '领导介绍',
                   '领导信箱', '首页']
 
+# title settings
+TITLE_EXTRACTOR_USELESS_TAGS = ["br", "BR", "script", "style"]
+
+PUNCTUATION_ALPHA_PATTERN = '[a-zA-Z0-9’!"#$%&\'()*+,-./:;<=>?@，。?★、…【】《》？“”‘’！[\\]^_`{|}~]+'
+
+TITLE_HTAG_XPATH = '(//h1//text() | //h2//text() | //h3//text() | //h4//text() | //h5//text() | //title//text() | //*[contains(@class, "title")]/text() | //*[contains(@class, "Title")]/text() | //*[contains(@id, "title")]/text() | //*[contains(@id, "Title")]/text())'
+
+TITLE_META_XPATH = '//meta[contains(@name, "Title")]/@content'
+
+TITLE_META_XPATH_BAK = '//meta[contains(@name, "title")]/@content'
+
+# time settings
 DATETIME_PATTERN = [
     r"(\d{4}[-|/|.]\d{1,2}[-|/|.]\d{1,2}\s*?[0-1]?[0-9]:[0-5]?[0-9]:[0-5]?[0-9])",
     r"(\d{4}[-|/|.]\d{1,2}[-|/|.]\d{1,2}\s*?[2][0-3]:[0-5]?[0-9]:[0-5]?[0-9])",
@@ -48,12 +74,6 @@ DATETIME_PATTERN = [
     r"(\d{2}年\d{1,2}月\d{1,2}日)",
     r"(\d{1,2}月\d{1,2}日)",
 ]
-
-TITLE_HTAG_XPATH = '(//h1//text() | //h2//text() | //h3//text() | //h4//text() | //h5//text() | //title//text() | //*[contains(@class, "title")]/text() | //*[contains(@class, "Title")]/text() | //*[contains(@id, "title")]/text() | //*[contains(@id, "Title")]/text())'
-
-TITLE_META_XPATH = '//meta[contains(@name, "Title")]/@content'
-
-TITLE_META_XPATH_BAK = '//meta[contains(@name, "title")]/@content'
 
 PUBLISH_TIME_META = [  # 部分特别规范的网站，可以直接从 HTML 的 meta 数据中获得发布时间
     '//meta[starts-with(@property, "rnews:datePublished")]/@content',
