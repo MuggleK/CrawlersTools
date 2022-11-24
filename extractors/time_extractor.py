@@ -20,7 +20,7 @@ class TimeExtractor(BaseExtractor):
     def extract_from_xpath(element: Element, publish_time_xpath: str) -> str:
         if publish_time_xpath:
             publish_time = ''.join(element.xpath(publish_time_xpath))
-            return publish_time
+            return format_time(publish_time)
         return ''
 
     @staticmethod
@@ -29,7 +29,7 @@ class TimeExtractor(BaseExtractor):
         for dt in DATETIME_PATTERN:
             dt_obj = re.search(dt, text)
             if dt_obj:
-                return dt_obj.group(1)
+                return format_time(dt_obj.group(1))
         else:
             return ''
 
@@ -43,7 +43,7 @@ class TimeExtractor(BaseExtractor):
         for xpath in PUBLISH_TIME_META:
             publish_time = element.xpath(xpath)
             if publish_time:
-                return ''.join(publish_time)
+                return format_time(''.join(publish_time))
         return ''
     
     def process(self, element: Element):
@@ -54,4 +54,4 @@ class TimeExtractor(BaseExtractor):
                         or self.extract_from_meta(element)
                         or self.extract_from_text(element))
 
-        return format_time(publish_time)
+        return publish_time

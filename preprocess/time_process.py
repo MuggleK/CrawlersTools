@@ -41,7 +41,7 @@ def format_time(time_str, struct_return=False):
 
     if struct_return:
         return struct_time
-    return str(struct_time)
+    if struct_time: return str(struct_time)
 
 
 def compare_time(time_min, time_max):
