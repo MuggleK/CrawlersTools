@@ -11,7 +11,7 @@ from extractors.schemas.element import Element
 from extractors.utils.preprocess import preprocess4content_extractor
 from extractors.base import BaseExtractor
 from extractors.utils.element import descendants_of_body
-from extractors.utils.settings import ERROR_NAV_LIST
+from extractors.utils.settings import SPECIAL_SYMBOL_MAP, ERROR_NAV_LIST
 
 
 class ContentExtractor(BaseExtractor):
@@ -64,7 +64,13 @@ class ContentExtractor(BaseExtractor):
         :return:
         """
         self.kwargs = kwargs
+        for key, value in SPECIAL_SYMBOL_MAP.items():
+            html = html.replace(key, value)
+
         element = fromstring(html=html)  # html有多个，fromstring默认取第一个 TODO 解析不了非规范html
+        if self.kwargs.get("content_xpath"):
+            return ''.join(element.xpath(self.kwargs.get("content_xpath")))
+
         descendants_list = list(element.iterdescendants())
 
         # remove error navigate tags
