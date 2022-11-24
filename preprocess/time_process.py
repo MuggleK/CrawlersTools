@@ -20,7 +20,7 @@ def format_time(time_str, struct_return=False):
     time_format_str = "%Y-%m-%d"
     time_old_format = '%b %d %Y %I:%M%p'
     try:
-        timestamp = int(str(time_str))
+        timestamp = time_str if isinstance(time_str, int) else int(time_str)
         if timestamp >= 0:
             time_array = time.localtime(timestamp)
             struct_time = time_array if struct_return else time.strftime(time_format_str, time_array)
