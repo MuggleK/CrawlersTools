@@ -107,6 +107,7 @@ Outputs:
 With this module,insert data into database is more conveniently.
 #### MySQL Pipeline
 There is no need to care the order of items when insert data.
+
 Usage example:
 ```shell
 from CrawlersTools import MysqlPipeline
