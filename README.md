@@ -155,8 +155,6 @@ a_thread.main_thread()
 
 ## Reference
 
----
-
 ### Paper
 
 * [面向不规则列表的网页数据抽取技术的研究](http://www.cnki.com.cn/Article/CJFDTotal-JSYJ201509023.htm)
