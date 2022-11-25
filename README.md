@@ -16,7 +16,6 @@ CrawlersTools requires Python 3.7+.
 
 ## Modules Introduction
 
----
 
 ### Extraction of Policy HTML
 With this module,you can extract policy html automatically.
@@ -137,7 +136,7 @@ Outputs:
 
 
 ### Dynamic Thread
-This concurrent mode will create a child thread for every task below max threads and when children thread less than max threads, main thread will create child thread for new task.
+This concurrent mode will create a child thread for every task below max threads and when children thread less than max threads,the main thread will create child thread for new task.
 
 Usage example:
 ```shell
