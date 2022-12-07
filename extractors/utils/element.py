@@ -127,6 +127,19 @@ def a_descendants(element: Element):
         descendants.append(descendant)
     return descendants
 
+def img_descendants(element: Element):
+    """
+    get
+    :param element:
+    :return:
+    """
+    if element is None:
+        return []
+    descendants = []
+    for descendant in element.xpath(".//img"):
+        descendant.__class__ = Element
+        descendants.append(descendant)
+    return descendants
 
 def a_descendants_group(element: Element):
     """

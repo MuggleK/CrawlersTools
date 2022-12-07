@@ -28,6 +28,7 @@ class Element(HtmlElement):
     _density_score: float = None
     _similarity_with_siblings: float = None
     _a_descendants: list = None
+    _img_descendants: list = None
     _a_descendants_group: dict = None
     _a_descendants_group_text_length: dict = None
     _a_descendants_group_text_min_length: float = None
@@ -326,6 +327,19 @@ class Element(HtmlElement):
         from extractors.utils.element import a_descendants
         self._a_descendants = a_descendants(self)
         return self._a_descendants
+    
+    @property
+    def img_descendants(self):
+        """
+        get linked descendants
+        :return:
+        """
+        if self._img_descendants is not None:
+            return self._img_descendants
+        from extractors.utils.element import img_descendants
+
+        self._img_descendants = img_descendants(self)
+        return self._img_descendants
     
     @property
     def a_descendants_group(self):
