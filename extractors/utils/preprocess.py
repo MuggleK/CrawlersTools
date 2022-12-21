@@ -15,8 +15,8 @@ CONTENT_EXTRACTOR_NOISE_XPATH = [
     # '//div[contains(@class, "comment")]',
     '//div[contains(@class, "advertisement")]',
     '//div[contains(@class, "advert")]',
-    # '//div[contains(@style, "display: none")]',
-    # '//div[contains(@style, "display:none")]',  # TODO css不展示数据是否要去除，可能会影响正文重复
+    '//a[contains(@style, "display: none")]',
+    '//a[contains(@style, "display:none")]',  # TODO css不展示数据是否要去除，可能会影响正文重复
     f'//div[contains(@class, "foot") {KEYWORD_FEATURES}]',
     f'//div[contains(@class, "footer") {KEYWORD_FEATURES}]',
     # f'//div[contains(@class, "location") {KEYWORD_FEATURES}]',
@@ -36,7 +36,8 @@ CONTENT_EXTRACTOR_NOISE_XPATH = [
     '//div[contains(@id, "页头")]',
     '//div[contains(@class, "页眉")]',
     '//div[contains(@class, "页头")]',
-    '//div[contains(@class, "hidden")]',
+    '//*[contains(@class, "hidden")]',
+    '//*[contains(@class, "title")]',
 ]
 
 
@@ -46,14 +47,13 @@ def preprocess4content_extractor(element: Element):
     :param element:
     :return:
     """
+    remove_children(element, CONTENT_EXTRACTOR_NOISE_XPATH)
 
     # remove tag and its content
     etree.strip_elements(element, *CONTENT_EXTRACTOR_USELESS_TAGS)
 
     # only move tag pair
     etree.strip_tags(element, *CONTENT_EXTRACTOR_STRIP_TAGS)
-
-    remove_children(element, CONTENT_EXTRACTOR_NOISE_XPATH)
 
     for child in children(element):
 

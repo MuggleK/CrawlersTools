@@ -16,7 +16,6 @@ ADDTION_RIGHT_NUM = 10000
 HIGH_WEIGHT_ERROR_KEYWORD = ["ICP备", "公网安备", "网公安备", "备案序号：", "网站地图"]
 DIRECTORY_ERROR_TITLE = ["首页", "下一页", "解读", "图解", "详细", "阅读全文", "标题", "[详细]"]
 
-
 # common settings
 SPECIAL_SYMBOL_MAP = {
     '&quot;': '\"',
@@ -40,8 +39,8 @@ ERROR_NAV_LIST = ['Copyright', 'ICP备', 'QQ空间', '上一篇', '下一篇', '
                   '政策文件', '政策法规', '新浪微博', '新闻公告', '无障碍浏览', '机构概况', '机构职能', '机构设置', '来源:', '来源：', '标题', '法定主动公开内容',
                   '法定主动公开内容+', '法定主动公开目录', '法规文件', '浏览器版本过低', '浏览次数', '浏览统计', '浏览量', '浏览量', '点击次数', '点击量', '版权所有',
                   '生成时间', '电子期刊', '科技动态', '科技资讯', '简繁', '索 引 号', '索引号', '组织机构', '网公安备', '网站地图', '网站建设', '网站标识码', '联系我们',
-                  '联系我们', '腾讯微博', '行政规范性文件', '责任编辑', '返回顶部', '进度查询', '通知公告', '部门规章', '重大决策预公开', '门户网站', '预决算公开', '领导介绍',
-                  '领导信箱', '首页']
+                  '联系我们', '腾讯微博', '责任编辑', '返回顶部', '进度查询', '通知公告', '部门规章', '重大决策预公开', '预决算公开', '领导介绍', "政策文件及解读", "其他文件",
+                  '领导信箱', '首页', "县政府文件", "访问次数", "阅读版本"]
 
 # title settings
 TITLE_EXTRACTOR_USELESS_TAGS = ["br", "BR", "script", "style"]
@@ -118,3 +117,6 @@ PUBLISH_TIME_META = [  # 部分特别规范的网站，可以直接从 HTML 的 
     '//*[contains(text(), "发布日期")]/../..//text()',
     '//*[contains(text(), "发布时间")]/../..//text()',
 ]
+
+# attachments settings
+ATTACHMENT_REGX = "(pdf|txt|doc|docx|xlsx|xls|csv|wps|hlp|rtf|ppt|pptx|zip|rar|jar|gz|jpg|jpeg|png|tif|gif|bmp|pic|mac|avi|mpg|mov|swf|wav|aif|au|mp3|ram|wma|mmf|amr|aac|flac|et|ofd|webp|jfif)(?:&classid=\\-?[0-9]+|\?docid=[0-9]+)?$"
