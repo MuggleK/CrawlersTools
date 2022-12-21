@@ -3,12 +3,13 @@ from lxml.html import etree
 from extractors.schemas.element import Element
 from extractors.utils.element import children, remove_element, remove_children
 
+# fmt:off
 CONTENT_EXTRACTOR_USELESS_TAGS = ['audio', 'colgroup', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'iframe',
                                   'input', 'link', 'option', 'path', 'script', 'select', 'source', 'style', 'svg',
                                   'symbol', 'video']
 
-CONTENT_EXTRACTOR_STRIP_TAGS = ['b', 'blockquote', 'br', 'font', 'img', 'p', 'section', 'span', 'spanlang', 'spanstyle',
-                                'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'th', 'tr', 'u']
+CONTENT_EXTRACTOR_STRIP_TAGS = ['b', 'blockquote', 'br', 'font',  'p', 'section', 'span', 'spanlang', 'spanstyle',
+                                'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'th', 'tr', 'u'] # 'img'
 
 KEYWORD_FEATURES = 'and not (contains(@class,"main")) and not (contains(@class,"content"))and not (contains(@class,"con"))and not (contains(@class,"container")) and not (contains(@class,"list")) and not (contains(@class,"box")) and not (contains(@class,"right"))and not (contains(@class,"body")) and not (contains(@class,"lanmu")) '
 CONTENT_EXTRACTOR_NOISE_XPATH = [
