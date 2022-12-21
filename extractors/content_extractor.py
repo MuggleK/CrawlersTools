@@ -73,24 +73,17 @@ class ContentExtractor(BaseExtractor):
 
         descendants_list = list(element.iterdescendants())
 
-        # remove error navigate tags & useless table
+        # remove error navigate tags
+        remove_index_list = list()
         for index, descendant in enumerate(descendants_list):
             if descendant.text is None:
                 continue
-
             nav_error_list = [i for i in ERROR_NAV_LIST if i in descendant.text]
-            if not nav_error_list:
-                continue
+            if nav_error_list: remove_index_list.append(index)
 
-            grandfather = descendant.getparent().getparent()
-            if grandfather is None:
-                continue
-            remove_parent = grandfather.getparent() if grandfather.tag in ["table", "tbody"] else descendant.getparent()
-            if remove_parent is not None:
-                if grandfather.tag in ["table", "tbody"]:
-                    remove_parent.remove(grandfather)
-                else:
-                    remove_parent.remove(descendant)
+        for i in remove_index_list:
+            parent_element = descendants_list[i].getparent()
+            if parent_element is not None: parent_element.remove(descendants_list[i])
 
         element.__class__ = Element
         return self.process(element)
