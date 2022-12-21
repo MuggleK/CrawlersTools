@@ -118,3 +118,6 @@ PUBLISH_TIME_META = [  # 部分特别规范的网站，可以直接从 HTML 的 
     '//*[contains(text(), "发布日期")]/../..//text()',
     '//*[contains(text(), "发布时间")]/../..//text()',
 ]
+
+# attachments settings
+ATTACHMENT_REGX = "(pdf|txt|doc|docx|xlsx|xls|csv|wps|hlp|rtf|ppt|pptx|zip|rar|jar|gz|jpg|jpeg|png|tif|gif|bmp|pic|mac|avi|mpg|mov|swf|wav|aif|au|mp3|ram|wma|mmf|amr|aac|flac|et|ofd|webp|jfif)(?:&classid=\\-?[0-9]+|\?docid=[0-9]+)?$"
