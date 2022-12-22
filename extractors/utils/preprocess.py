@@ -42,10 +42,11 @@ CONTENT_EXTRACTOR_NOISE_XPATH = [
 ]
 
 
-def preprocess4content_extractor(element: Element):
+def preprocess4content_extractor(element: Element, is_content: bool = True):
     """
     preprocess element for content extraction
     :param element:
+    :param is_content:  save content without tag
     :return:
     """
     remove_children(element, CONTENT_EXTRACTOR_NOISE_XPATH)
@@ -53,6 +54,7 @@ def preprocess4content_extractor(element: Element):
     # remove tag and its content
     etree.strip_elements(element, *CONTENT_EXTRACTOR_USELESS_TAGS)
 
+    if not is_content: return
     # only move tag pair
     etree.strip_tags(element, *CONTENT_EXTRACTOR_STRIP_TAGS)
 

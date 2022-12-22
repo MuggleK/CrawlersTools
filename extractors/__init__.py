@@ -25,12 +25,14 @@ class PolicyExtractor(object):
     ) -> dict:
         title = TitleExtractor().extract(html, title_xpath=title_xpath)
         publish_time = TimeExtractor().extract(html, publish_time_xpath=publish_time_xpath)
-        content = ContentExtractor().extract(html, content_xpath=content_xpath)
+        content, content_with_tag, images = ContentExtractor().extract(html, content_xpath=content_xpath)
         attachments = AttachmentExtractor().extract(html, attachment_xpath=attachment_xpath, attachment_regx=attachment_regx)
 
         return {
             "title": title,
             "publish_time": publish_time,
             "content": content,
+            "content_with_tag": content_with_tag,
+            "images": images,
             "attachment": attachments
         }

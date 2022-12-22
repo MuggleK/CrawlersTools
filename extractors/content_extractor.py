@@ -4,8 +4,10 @@
 # @Author  : MuggleK
 # @File    : content_extractor.py
 
+from copy import deepcopy
+
 import numpy as np
-from lxml.html import fromstring
+from lxml.html import fromstring, HtmlElement
 
 from extractors.schemas.element import Element
 from extractors.utils.preprocess import preprocess4content_extractor
@@ -25,6 +27,9 @@ class ContentExtractor(BaseExtractor):
         :param element:
         :return:
         """
+        source_element = deepcopy(element)
+        source_element.__class__ = Element
+
         # preprocess
         preprocess4content_extractor(element)
 
@@ -54,8 +59,27 @@ class ContentExtractor(BaseExtractor):
         paragraphs = list(filter(lambda x: x, paragraphs))
         text = '\n'.join(paragraphs)
         text = text.strip()
-        return text
-    
+
+        # save content with tag
+        content_with_tag = self.process_content_tag(descendant_first, source_element)
+
+        # extract images
+        img_list = [img.attrib["src"] for img in content_with_tag.img_descendants if img.attrib]
+
+        return text, content_with_tag.string, img_list
+
+    @staticmethod
+    def process_content_tag(descendant_first, source_element):
+        content_xpath = f"//{descendant_first.tag}"
+        if descendant_first.attrib:
+            for k, v in descendant_first.attrib.items():
+                content_xpath += f"[@{k}='{v}']"
+        preprocess4content_extractor(source_element, is_content=False)
+        content_with_tag = source_element.xpath(content_xpath)[0]
+        if isinstance(content_with_tag, HtmlElement):
+            content_with_tag.__class__ = Element
+        return content_with_tag
+
     def extract(self, html, **kwargs):
         """
         base extract method, firstly, it will convert html to WebElement, then it call
