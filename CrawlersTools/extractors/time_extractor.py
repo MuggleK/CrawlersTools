@@ -11,7 +11,7 @@ from lxml.html import etree
 from extractors.base import BaseExtractor
 from extractors.utils.settings import DATETIME_PATTERN, PUBLISH_TIME_META, TITLE_EXTRACTOR_USELESS_TAGS
 from extractors.schemas.element import Element
-from preprocess import format_time
+from CrawlersTools.preprocess import format_time
 
 
 class TimeExtractor(BaseExtractor):

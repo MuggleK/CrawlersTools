@@ -4,11 +4,11 @@
 # @Author  : MuggleK
 # @File    : __init__.py
 
-from logs import Logging
+from CrawlersTools.logs import Logging
 
-from preprocess.time_process import format_time, compare_time
+from preprocess import format_time, compare_time
 
-from requests import base_requests, get_proxies, UserAgent
+from CrawlersTools.requests import base_requests, get_proxies, UserAgent
 
 from pipelines import MysqlPipeline, MongoPipeline, RedisPipeline
 

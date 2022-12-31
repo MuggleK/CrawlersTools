@@ -9,12 +9,12 @@ import json
 import time
 import random
 
-from charset_normalizer import detect
+from chardet import detect
 from httpx import Client, Response
 from loguru import logger
 
-from requests.proxy import get_proxies
-from requests.random_ua import UserAgent
+from CrawlersTools.requests.proxy import get_proxies
+from CrawlersTools.requests.random_ua import UserAgent
 
 
 class BaseRequests(object):
@@ -81,7 +81,7 @@ class BaseRequests(object):
                     timeout=kwargs.get("timeout", 20),
                     follow_redirects=kwargs.get("allow_redirects", False)
                 )
-                response.encoding = encoding if encoding else detect(response.content)['encoding']
+                response.encoding = encoding if encoding else detect(response.content)['encoding']  # chardet 更准确
                 if 200 <= response.status_code < 300 or response.status_code == 412:
                     if 'arg1' in response.text:
                         acw_tc_cookie = f'acw_tc={session.cookies.get("acw_tc")};'

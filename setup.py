@@ -33,7 +33,8 @@ setup(
         "PyYAML==5.3.1",
         "lxml==4.9.1",
         "numpy==1.21.6",
-        "Distance==0.1.3"
+        "Distance==0.1.3",
+        "chardet==3.0.4"
     ],
     license='BSD License',
     packages=find_packages(where='.', exclude=(), include=('*',)),
