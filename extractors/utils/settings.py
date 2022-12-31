@@ -36,6 +36,8 @@ SPECIAL_SYMBOL_MAP = {
     "&#60;": "<",
     "&#62;": ">",
     "&#160;": " ",
+    '<script type="text/xml">': "",
+    "<script type='text/xml'>": "",
 }
 # fmt: off
 ERROR_NAV_LIST = ['Copyright', 'ICP备', 'QQ空间', '上一篇', '下一篇', '专题专栏', '主题分类', '主题词：', '二维码', '互动交流', '人人网', '优质工程评审',
