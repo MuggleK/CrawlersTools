@@ -14,6 +14,7 @@ setup(
     name='CrawlersTools',  # 包名
     version='1.3.4',  # 版本号
     description='Tools for Crawlers',
+    long_description_content_type="text/markdown",
     long_description=long_description,
     author='MuggleK',
     author_email='peichangchuan@gmail.com',
