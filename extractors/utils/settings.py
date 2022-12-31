@@ -16,14 +16,7 @@ ADDTION_RIGHT_NUM = 10000
 HIGH_WEIGHT_ERROR_KEYWORD = ["ICP备", "公网安备", "网公安备", "备案序号：", "网站地图"]
 DIRECTORY_ERROR_TITLE = ["首页", "下一页", "解读", "图解", "详细", "阅读全文", "标题", "[详细]"]
 
-suffix_key = ".pdf|.txt|.doc|.docx|.xlsx|.xls|.csv|.wps|.hlp|.rtf|.ppt|.pptx|.zip|.rar|.jar|.gz|.jpg|.jpeg|.png|.tif|.gif|.bmp|.pic|.mac|.avi|.mpg|.mov|.swf|.wav|.aif|.au|.mp3|.ram|.wma|.mmf|.amr|.aac|.flac|.et|.ofd|.webp|.jfif"
-file_key_word = [
-    "attach",
-    "附件",
-    "upload",
-    "file",
-    "download",
-]
+
 # common settings
 SPECIAL_SYMBOL_MAP = {
     "&quot;": '"',
@@ -39,7 +32,7 @@ SPECIAL_SYMBOL_MAP = {
     '<script type="text/xml">': "",
     "<script type='text/xml'>": "",
 }
-# fmt: off
+
 ERROR_NAV_LIST = ['Copyright', 'ICP备', 'QQ空间', '上一篇', '下一篇', '专题专栏', '主题分类', '主题词：', '二维码', '互动交流', '人人网', '优质工程评审',
                   '使用帮助', '依申请公开', '信息公开', '信息公开制度', '信息公开年报', '信息公开指南', '信息发布', '免责声明', '党建专栏', '党建工作', '党组织概况',
                   '公示公告', '公网安备', '关闭窗口', '分享到', '分类：', '办事服务', '加入收藏', '区政府文件', '协会文件', '协会章程', '协会简介', '协会领导', '发布日期',
@@ -50,7 +43,7 @@ ERROR_NAV_LIST = ['Copyright', 'ICP备', 'QQ空间', '上一篇', '下一篇', '
                   '法定主动公开内容+', '法定主动公开目录', '法规文件', '浏览器版本过低', '浏览次数', '浏览统计', '浏览量', '浏览量', '点击次数', '点击量', '版权所有',
                   '生成时间', '电子期刊', '科技动态', '科技资讯', '简繁', '索 引 号', '索引号', '组织机构', '网公安备', '网站地图', '网站建设', '网站标识码', '联系我们',
                   '联系我们', '腾讯微博', '行政规范性文件', '责任编辑', '返回顶部', '进度查询', '通知公告', '部门规章', '重大决策预公开', '门户网站', '预决算公开', '领导介绍',
-                  '领导信箱', '首页','您访问的链接即将离开']
+                  '领导信箱', '首页']
 
 # title settings
 TITLE_EXTRACTOR_USELESS_TAGS = ["br", "BR", "script", "style"]
@@ -127,3 +120,6 @@ PUBLISH_TIME_META = [  # 部分特别规范的网站，可以直接从 HTML 的 
     '//*[contains(text(), "发布日期")]/../..//text()',
     '//*[contains(text(), "发布时间")]/../..//text()',
 ]
+
+# attachments settings
+ATTACHMENT_REGX = "(pdf|txt|doc|docx|xlsx|xls|csv|wps|hlp|rtf|ppt|pptx|zip|rar|jar|gz|jpg|jpeg|png|tif|gif|bmp|pic|mac|avi|mpg|mov|swf|wav|aif|au|mp3|ram|wma|mmf|amr|aac|flac|et|ofd|webp|jfif)(?:&classid=\\-?[0-9]+|\?docid=[0-9]+)?$"

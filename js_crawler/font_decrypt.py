@@ -6,7 +6,6 @@
 
 from io import BytesIO
 
-import ddddocr
 import httpx
 from fontTools.ttLib import TTFont
 from loguru import logger
@@ -33,9 +32,7 @@ class FontDecrypt(object):
 
     """
 
-    ocr = ddddocr.DdddOcr()
-
-    def __init__(self, font_url=None, str_base64=None, fontsize=30):
+    def __init__(self, font_url=None, str_base64=None, fontsize=30, host="http://127.0.0.1:9898/"):
         """
         :param font_url: 仅支持woff和ttf格式字体
         :param str_base64: 字体base64
@@ -53,6 +50,7 @@ class FontDecrypt(object):
         }
         self.encrypt_str = None
         self.font = None
+        self.host = host
         self.font_process()
 
     def font_base64(self):
@@ -111,11 +109,14 @@ class FontDecrypt(object):
         return img
 
     def orc(self, word: str):
+        import base64
         img = self.draw_img(word)
         img_object = BytesIO()
         img.save(img_object, 'JPEG')
-        res = self.ocr.classification(img_object.getvalue())
-        return res
+        img_bytes = img_object.getvalue()
+        api_url = f"{self.host}/ocr/b64"
+        res = httpx.post(api_url, data=base64.b64encode(img_bytes).decode())
+        return res.text
 
     def decrypt(self, word: str):
         logger.debug(f'In Encrypted Strings：{word}')

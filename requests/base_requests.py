@@ -60,7 +60,7 @@ class BaseRequests(object):
         """
         for _ in range(retry):
             try:
-                proxies = proxies if proxies else get_proxies(proxy_url)
+                proxies = proxies if proxies else get_proxies(proxy_url, http2=True)
                 session = session or Client(
                     http2=http2,
                     headers=headers,
