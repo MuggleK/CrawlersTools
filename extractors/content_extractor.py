@@ -73,7 +73,7 @@ class ContentExtractor(BaseExtractor):
         content_xpath = f"//{descendant_first.tag}"
         if descendant_first.attrib:
             for k, v in descendant_first.attrib.items():
-                content_xpath += f"[@{k}='{v}']"
+                if k and v: content_xpath += f"[@{k}='{v}']"
         preprocess4content_extractor(source_element, is_content=False)
         content_with_tag = source_element.xpath(content_xpath)[0]
         if isinstance(content_with_tag, HtmlElement):
