@@ -9,11 +9,11 @@ from copy import deepcopy
 import numpy as np
 from lxml.html import fromstring, HtmlElement
 
-from extractors.schemas.element import Element
-from extractors.utils.preprocess import preprocess4content_extractor
-from extractors.base import BaseExtractor
-from extractors.utils.element import descendants_of_body
-from extractors.utils.settings import SPECIAL_SYMBOL_MAP, ERROR_NAV_LIST
+from CrawlersTools.extractors.schemas.element import Element
+from CrawlersTools.extractors.utils.preprocess import preprocess4content_extractor
+from CrawlersTools.extractors.base import BaseExtractor
+from CrawlersTools.extractors.utils.element import descendants_of_body
+from CrawlersTools.extractors.utils.settings import SPECIAL_SYMBOL_MAP, ERROR_NAV_LIST
 
 
 class ContentExtractor(BaseExtractor):

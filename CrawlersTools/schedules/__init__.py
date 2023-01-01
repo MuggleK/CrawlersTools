@@ -4,4 +4,4 @@
 # @Author  : MuggleK
 # @File    : __init__.py
 
-from schedules.auto_thread import AutoThread
+from CrawlersTools.schedules.auto_thread import AutoThread

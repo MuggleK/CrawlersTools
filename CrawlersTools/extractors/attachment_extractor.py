@@ -6,9 +6,9 @@
 
 import re
 
-from extractors.schemas.element import Element
-from extractors.base import BaseExtractor
-from extractors.utils.settings import ATTACHMENT_REGX
+from CrawlersTools.extractors.schemas.element import Element
+from CrawlersTools.extractors.base import BaseExtractor
+from CrawlersTools.extractors.utils.settings import ATTACHMENT_REGX
 
 
 class AttachmentExtractor(BaseExtractor):

@@ -5,8 +5,8 @@ from types import ModuleType
 from collections import defaultdict
 from loguru import logger
 from lxml.html import fromstring, HtmlElement
-from extractors.schemas.element import Element
-from extractors.utils.similarity import similarity
+from CrawlersTools.extractors.schemas.element import Element
+from CrawlersTools.extractors.utils.similarity import similarity
 
 PUNCTUATION = set('''！，。？、；：“”‘’《》%（）<>{}「」【】*～`,.?:;'"!%()''')
 

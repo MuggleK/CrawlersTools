@@ -8,12 +8,12 @@ import re
 from itertools import combinations
 from lxml.html import etree
 
-from extractors.base import BaseExtractor
-from extractors.utils.similarity import get_longest_common_sub_string
-from extractors.utils.settings import (
+from CrawlersTools.extractors.base import BaseExtractor
+from CrawlersTools.extractors.utils.similarity import get_longest_common_sub_string
+from CrawlersTools.extractors.utils.settings import (
     TITLE_HTAG_XPATH, TITLE_META_XPATH, TITLE_META_XPATH_BAK, TITLE_EXTRACTOR_USELESS_TAGS, PUNCTUATION_ALPHA_PATTERN
 )
-from extractors.schemas.element import Element
+from CrawlersTools.extractors.schemas.element import Element
 
 
 class TitleExtractor(BaseExtractor):

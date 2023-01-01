@@ -4,12 +4,12 @@
 # @Author  : MuggleK
 # @File    : __init__.py
 
-from extractors.list_extractor import ListExtractor
+from CrawlersTools.extractors.list_extractor import ListExtractor
 
-from extractors.title_extractor import TitleExtractor
-from extractors.time_extractor import TimeExtractor
-from extractors.content_extractor import ContentExtractor
-from extractors.attachment_extractor import AttachmentExtractor
+from CrawlersTools.extractors.title_extractor import TitleExtractor
+from CrawlersTools.extractors.time_extractor import TimeExtractor
+from CrawlersTools.extractors.content_extractor import ContentExtractor
+from CrawlersTools.extractors.attachment_extractor import AttachmentExtractor
 
 
 class PolicyExtractor(object):
