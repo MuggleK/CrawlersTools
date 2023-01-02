@@ -469,7 +469,7 @@ def number_of_clusters(element: Element, tags=None):
     :param element:
     :return:
     """
-    from extractors.utils.settings import LIST_MIN_NUMBER, LIST_MAX_LENGTH, LIST_MIN_LENGTH, SIMILARITY_THRESHOLD
+    from CrawlersTools.extractors.utils.settings import LIST_MIN_NUMBER, LIST_MAX_LENGTH, LIST_MIN_LENGTH, SIMILARITY_THRESHOLD
     if element is None:
         return 0
     if tags and not isinstance(tags, (list, tuple)):
