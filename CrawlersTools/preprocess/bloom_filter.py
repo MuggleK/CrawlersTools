@@ -60,7 +60,7 @@ class BloomFilter(object):
         for seed in self.seeds:
             self.hash_func.append(SimpleHash(self.bit_size, seed))
 
-    def is_contains(self, str_input):
+    def is_contains(self, str_input) -> bool:
         """
         param str_input: source string
         :return:
@@ -70,11 +70,11 @@ class BloomFilter(object):
         ret = True
 
         fp = sha1(str_input)
-        name = self.key + str(int(fp[0:2], 16) % self.block_num)
+        name = f"{self.key}{str(int(fp[0:2], 16) % self.block_num)}"
         for f in self.hash_func:
             loc = f.hash(str_input)
             ret = ret & self.server.getbit(name, loc)
-        return ret
+        return bool(ret)
 
     def insert(self, str_input):
         """
@@ -82,7 +82,7 @@ class BloomFilter(object):
         :return:
         """
         fp = sha1(str_input)
-        name = self.key + str(int(fp[0:2], 16) % self.block_num)
+        name = f"{self.key}{str(int(fp[0:2], 16) % self.block_num)}"
         for f in self.hash_func:
             loc = f.hash(str_input)
             self.server.setbit(name, loc, 1)
