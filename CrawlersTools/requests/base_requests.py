@@ -83,7 +83,7 @@ class BaseRequests(object):
                 )
                 response.encoding = encoding if encoding else detect(response.content)['encoding']  # chardet 更准确
                 if 200 <= response.status_code < 300 or response.status_code == 412:
-                    if 'arg1' in response.text:
+                    if 'arg1=' in response.text:
                         acw_tc_cookie = f'acw_tc={session.cookies.get("acw_tc")};'
                         headers["Cookie"] = headers["Cookie"] + acw_tc_cookie if headers.get("Cookie") else acw_tc_cookie
                         reg_arg1 = re.findall("var arg1='(.*)';", response.text)[0]
