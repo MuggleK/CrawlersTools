@@ -6,4 +6,4 @@
 
 from CrawlersTools.preprocess.bloom_filter import BloomFilter
 
-from CrawlersTools.preprocess.time_process import format_time, compare_time
+from CrawlersTools.preprocess.time_process import TimeProcessor
