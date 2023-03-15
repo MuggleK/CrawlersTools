@@ -11,7 +11,7 @@ with open("README.md", "r", encoding='utf-8') as f:
 
 setup(
     name='CrawlersTools',  # 包名
-    version='1.4.3',  # 版本号
+    version='1.4.4',  # 版本号
     description='Tools for Crawlers',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -34,7 +34,8 @@ setup(
         "lxml==4.9.1",
         "numpy==1.21.6",
         "Distance==0.1.3",
-        "chardet==3.0.4"
+        "chardet==3.0.4",
+        "sinan==0.1.5"
     ],
     license='BSD License',
     packages=find_packages(where='.', exclude=(), include=('*',)),
