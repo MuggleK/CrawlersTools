@@ -42,6 +42,9 @@ class TimeProcessor:
         return struct_time.strftime(self.fmt)
 
     def compare_date(self, time_min, time_max):
+        if not time_max:
+            return False
+
         time_min_format = time_min if isinstance(time_min, datetime) else self.format(time_min, struct=True)
         time_max_format = time_max if isinstance(time_max, datetime) else self.format(time_max, struct=True)
         if time_min_format < time_max_format:
