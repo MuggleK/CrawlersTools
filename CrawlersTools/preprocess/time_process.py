@@ -14,8 +14,10 @@ class TimeProcessor:
 
     datetime_pattern = r"([0-9]{4}).*?([0-1]{0,1}[0-9]).*?([0-3]{0,1}[0-9])"
 
-    def __init__(self, fmt="%Y-%m-%d %H:%M:%S"):
-        self.fmt = fmt
+    def __init__(self):
+        self.fmt = "%Y-%m-%d"   # 暂时只处理年月日
+        today = datetime.today()
+        self.sinan_dt = datetime(today.year, today.month, today.day)
 
     def format(self, string, struct=False):
         try:
@@ -24,7 +26,7 @@ class TimeProcessor:
             # print(f"非时间戳格式：{string}")
             pass
 
-        date = Sinan(string).parse(display_status=False).get("datetime", [""])[0]
+        date = Sinan(string, source_DT=self.sinan_dt).parse(display_status=False).get("datetime", [""])[0].split(' ')[0]
         if not date:
             re_res = re.search(self.datetime_pattern, string)
             date = f"{re_res.group(1)}-{re_res.group(2)}-{re_res.group(3)}"
@@ -41,11 +43,12 @@ class TimeProcessor:
             return struct_time
         return struct_time.strftime(self.fmt)
 
-    def compare_date(self, time_min, time_max):
-        if not time_max:
+    def compare_date(self, time_min, time_max) -> bool:
+        if not (time_min and time_max):
             return False
 
         time_min_format = time_min if isinstance(time_min, datetime) else self.format(time_min, struct=True)
         time_max_format = time_max if isinstance(time_max, datetime) else self.format(time_max, struct=True)
-        if time_min_format < time_max_format:
+        if time_min_format.date() <= time_max_format.date():
             return True
+        return False

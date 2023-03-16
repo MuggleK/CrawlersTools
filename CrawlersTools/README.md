@@ -146,11 +146,6 @@ a_thread = AutoThread(thread_num=20, fun, arg_list)
 a_thread.main_thread()
 ```
 
-## TODO
-### PolicyExtractor
-* 正文提取结果保留全标签
-* 提取正文中的图片及附件
-
 
 ## Reference
 
