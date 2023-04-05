@@ -9,6 +9,7 @@ from inspect import isgenerator
 from threading import Thread, active_count, Lock
 from traceback import format_exc
 
+import vthread as vthread
 from loguru import logger
 
 
@@ -23,7 +24,7 @@ class ExcThread(Thread):
     def __init__(self, target, args=None, kwargs=None):
         super(ExcThread, self).__init__()
         self._target = target
-        self._args = tuple() if (args or args == (None, )) else args
+        self._args = tuple() if args is None else (args, )
         self._kwargs = kwargs or dict()
 
     def run(self):
@@ -72,9 +73,11 @@ class AutoThread(object):
                     continue
 
             fun = self.next_task(self.fun) if isgenerator(self.fun) else self.fun
+            if fun is None:
+                break
             args = self.next_task(self.args) if isgenerator(self.args) else self.args
-            if fun is None and args is None:
+            if args is None:
                 break
 
-            t = ExcThread(target=fun, args=(args,))
+            t = ExcThread(target=fun, args=args)
             t.start()
