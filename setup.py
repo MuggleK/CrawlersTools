@@ -11,7 +11,7 @@ with open("README.md", "r", encoding='utf-8') as f:
 
 setup(
     name='CrawlersTools',  # 包名
-    version='1.4.65',  # 版本号
+    version='1.4.66',  # 版本号
     description='Tools for Crawlers',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -27,7 +27,7 @@ setup(
         "loguru",
         "Pillow",
         "PyExecJS",
-        "pymongo==4.2.0",
+        "pymongo==3.5.1",
         "PyMySQL==0.9.3",
         "redis==4.1.3",
         "PyYAML==5.3.1",
