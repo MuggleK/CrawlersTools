@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 
 from sinan import Sinan
 
+from CrawlersTools.projects.filters import empty_title
+
 
 class TimeProcessor:
 
@@ -18,6 +20,7 @@ class TimeProcessor:
         self.fmt = "%Y-%m-%d"   # 暂时只处理年月日
 
     def format(self, string, struct=False):
+        string = empty_title(string)
         try:
             return self.process_timestamp(string, struct)
         except ValueError:
