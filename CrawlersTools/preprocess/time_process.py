@@ -30,7 +30,8 @@ class TimeProcessor:
         date = Sinan(string).parse(display_status=False).get("datetime", [""])[0].split(' ')[0]     # 错误的时分秒
         if not date:
             re_res = re.search(self.datetime_pattern, string)
-            date = f"{re_res.group(1)}-{re_res.group(2)}-{re_res.group(3)}"
+            if re_res is not None:
+                date = f"{re_res.group(1)}-{re_res.group(2)}-{re_res.group(3)}"
 
         if struct:
             return datetime.strptime(date, self.fmt)
@@ -50,6 +51,9 @@ class TimeProcessor:
 
         time_min_format = time_min if isinstance(time_min, datetime) else self.format(time_min, struct=True)
         time_max_format = time_max if isinstance(time_max, datetime) else self.format(time_max, struct=True)
+        if not (time_min_format and time_max_format):
+            return False
+
         if time_min_format.date() <= time_max_format.date():
             return True
         return False
