@@ -5,9 +5,9 @@
 # @File    : __init__.py
 
 import os
-from requests.base_requests import BaseRequests
-from requests.proxy import get_proxies
-from requests.random_ua import UserAgent
+from CrawlersTools.requests.base_requests import BaseRequests
+from CrawlersTools.requests.proxy import get_proxies
+from CrawlersTools.requests.random_ua import UserAgent
 
 PROJECT_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 

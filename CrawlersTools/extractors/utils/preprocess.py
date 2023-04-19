@@ -1,7 +1,7 @@
 from lxml.html import etree
 
-from extractors.schemas.element import Element
-from extractors.utils.element import children, remove_element, remove_children
+from CrawlersTools.extractors.schemas.element import Element
+from CrawlersTools.extractors.utils.element import children, remove_element, remove_children
 
 # fmt:off
 CONTENT_EXTRACTOR_USELESS_TAGS = ['audio', 'colgroup', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'iframe',

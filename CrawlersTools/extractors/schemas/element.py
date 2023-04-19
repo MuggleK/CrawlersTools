@@ -64,7 +64,7 @@ class Element(HtmlElement):
         """
         if self._alias is not None:
             return self._alias
-        from extractors.utils.element import alias
+        from CrawlersTools.extractors.utils.element import alias
         self._alias = alias(self)
         return self._alias
     
@@ -76,7 +76,7 @@ class Element(HtmlElement):
         """
         if self._selector is not None:
             return self._selector
-        from extractors.utils.element import selector
+        from CrawlersTools.extractors.utils.element import selector
         self._selector = selector(self)
         return self._selector
     
@@ -88,7 +88,7 @@ class Element(HtmlElement):
         """
         if self._children is not None:
             return self._children
-        from extractors.utils.element import children
+        from CrawlersTools.extractors.utils.element import children
         self._children = list(children(self))
         return self._children
     
@@ -100,7 +100,7 @@ class Element(HtmlElement):
         """
         if self._siblings is not None:
             return self._siblings
-        from extractors.utils.element import siblings
+        from CrawlersTools.extractors.utils.element import siblings
         self._siblings = list(siblings(self))
         return self._siblings
     
@@ -112,7 +112,7 @@ class Element(HtmlElement):
         """
         if self._descendants is not None:
             return self._descendants
-        from extractors.utils.element import descendants
+        from CrawlersTools.extractors.utils.element import descendants
         self._descendants = list(descendants(self))
         return self._descendants
     
@@ -124,7 +124,7 @@ class Element(HtmlElement):
         """
         if self._parent_selector is not None:
             return self._parent_selector
-        from extractors.utils.element import selector, parent
+        from CrawlersTools.extractors.utils.element import selector, parent
         # TODO: change parent(self) to self.parent
         p = parent(self)
         if p is not None:
@@ -150,7 +150,7 @@ class Element(HtmlElement):
         """
         if self._text is not None:
             return self._text
-        from extractors.utils.element import text
+        from CrawlersTools.extractors.utils.element import text
         self._text = text(self)
         return self._text
     
@@ -170,7 +170,7 @@ class Element(HtmlElement):
         """
         if self._path is not None:
             return self._path
-        from extractors.utils.element import path
+        from CrawlersTools.extractors.utils.element import path
         self._path = path(self)
         return self._path
     
@@ -182,7 +182,7 @@ class Element(HtmlElement):
         """
         if self._path_raw is not None:
             return self._path_raw
-        from extractors.utils.element import path_raw
+        from CrawlersTools.extractors.utils.element import path_raw
         self._path_raw = path_raw(self)
         return self._path_raw
     
@@ -194,7 +194,7 @@ class Element(HtmlElement):
         """
         if self._number_of_char is not None:
             return self._number_of_char
-        from extractors.utils.element import number_of_char
+        from CrawlersTools.extractors.utils.element import number_of_char
         self._number_of_char = number_of_char(self)
         return self._number_of_char
     
@@ -206,7 +206,7 @@ class Element(HtmlElement):
         """
         if self._number_of_a_descendants is not None:
             return self._number_of_a_descendants
-        from extractors.utils.element import number_of_a_descendants
+        from CrawlersTools.extractors.utils.element import number_of_a_descendants
         self._number_of_a_descendants = number_of_a_descendants(self)
         return self._number_of_a_descendants
     
@@ -218,7 +218,7 @@ class Element(HtmlElement):
         """
         if self._number_of_a_char is not None:
             return self._number_of_a_char
-        from extractors.utils.element import number_of_a_char
+        from CrawlersTools.extractors.utils.element import number_of_a_char
         self._number_of_a_char = number_of_a_char(self)
         return self._number_of_a_char
     
@@ -230,7 +230,7 @@ class Element(HtmlElement):
         """
         if self._number_of_p_descendants is not None:
             return self._number_of_p_descendants
-        from extractors.utils.element import number_of_p_descendants
+        from CrawlersTools.extractors.utils.element import number_of_p_descendants
         self._number_of_p_descendants = number_of_p_descendants(self)
         return self._number_of_p_descendants
     
@@ -242,7 +242,7 @@ class Element(HtmlElement):
         """
         if self._number_of_punctuation is not None:
             return self._number_of_punctuation
-        from extractors.utils.element import number_of_punctuation
+        from CrawlersTools.extractors.utils.element import number_of_punctuation
         self._number_of_punctuation = number_of_punctuation(self)
         return self._number_of_punctuation
     
@@ -276,7 +276,7 @@ class Element(HtmlElement):
         """
         if self._number_of_descendants is not None:
             return self._number_of_descendants
-        from extractors.utils.element import number_of_descendants
+        from CrawlersTools.extractors.utils.element import number_of_descendants
         self._number_of_descendants = len(list(self.descendants))
         return self._number_of_descendants
     
@@ -288,7 +288,7 @@ class Element(HtmlElement):
         """
         if self._density_of_punctuation is not None:
             return self._density_of_punctuation
-        from extractors.utils.element import density_of_punctuation
+        from CrawlersTools.extractors.utils.element import density_of_punctuation
         self._density_of_punctuation = density_of_punctuation(self)
         return self._density_of_punctuation
     
@@ -300,7 +300,7 @@ class Element(HtmlElement):
         """
         if self._density_of_text is not None:
             return self._density_of_text
-        from extractors.utils.element import density_of_text
+        from CrawlersTools.extractors.utils.element import density_of_text
         self._density_of_text = density_of_text(self)
         return self._density_of_text
     
@@ -312,7 +312,7 @@ class Element(HtmlElement):
         """
         if self._similarity_with_siblings is not None:
             return self._similarity_with_siblings
-        from extractors.utils.element import similarity_with_siblings
+        from CrawlersTools.extractors.utils.element import similarity_with_siblings
         self._similarity_with_siblings = similarity_with_siblings(self)
         return self._similarity_with_siblings
     
@@ -324,7 +324,7 @@ class Element(HtmlElement):
         """
         if self._a_descendants is not None:
             return self._a_descendants
-        from extractors.utils.element import a_descendants
+        from CrawlersTools.extractors.utils.element import a_descendants
         self._a_descendants = a_descendants(self)
         return self._a_descendants
     
@@ -336,7 +336,7 @@ class Element(HtmlElement):
         """
         if self._img_descendants is not None:
             return self._img_descendants
-        from extractors.utils.element import img_descendants
+        from CrawlersTools.extractors.utils.element import img_descendants
 
         self._img_descendants = img_descendants(self)
         return self._img_descendants
@@ -349,7 +349,7 @@ class Element(HtmlElement):
         """
         if self._a_descendants_group is not None:
             return self._a_descendants_group
-        from extractors.utils.element import a_descendants_group
+        from CrawlersTools.extractors.utils.element import a_descendants_group
         self._a_descendants_group = a_descendants_group(self)
         return self._a_descendants_group
     
@@ -362,7 +362,7 @@ class Element(HtmlElement):
         if self._a_descendants_group_text_length is not None:
             return self._a_descendants_group_text_length
         result = {}
-        from extractors.utils.element import text
+        from CrawlersTools.extractors.utils.element import text
         for path, elements in self.a_descendants_group.items():
             lengths = []
             for element in elements:

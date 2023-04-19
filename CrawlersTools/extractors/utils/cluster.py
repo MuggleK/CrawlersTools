@@ -1,4 +1,4 @@
-from extractors.utils.similarity import similarity
+from CrawlersTools.extractors.utils.similarity import similarity
 from collections import defaultdict
 
 

@@ -17,15 +17,15 @@ from collections import defaultdict
 from urllib.parse import urljoin
 from lxml.html import fromstring
 
-from extractors.utils.cluster import cluster_dict
-from extractors.utils.settings import (
+from CrawlersTools.extractors.utils.cluster import cluster_dict
+from CrawlersTools.extractors.utils.settings import (
     LIST_AVG_LENGTH, LIST_MAX_LENGTH, LIST_MIN_LENGTH, LIST_MIN_NUMBER, ADDTION_RIGHT_NUM, SIMILARITY_THRESHOLD,
     HIGH_WEIGHT_ERROR_KEYWORD, DIRECTORY_ERROR_TITLE, SPECIAL_SYMBOL_MAP,
 )
-from extractors.utils.preprocess import preprocess4list_extractor
-from extractors.base import BaseExtractor
-from extractors.utils.element import calc_a_descendants_text_of_avg_length, descendants_of_body
-from extractors.schemas.element import Element
+from CrawlersTools.extractors.utils.preprocess import preprocess4list_extractor
+from CrawlersTools.extractors.base import BaseExtractor
+from CrawlersTools.extractors.utils.element import calc_a_descendants_text_of_avg_length, descendants_of_body
+from CrawlersTools.extractors.schemas.element import Element
 
 
 AVG_LENGTH = (LIST_MIN_LENGTH + LIST_MAX_LENGTH) / 2

@@ -4,18 +4,17 @@
 # @Author  : MuggleK
 # @File    : setup.py
 
-from distutils.core import setup
-from setuptools import find_packages
+from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
     name='CrawlersTools',  # 包名
-    version='1.3.4',  # 版本号
+    version='1.3.9',  # 版本号
     description='Tools for Crawlers',
-    long_description_content_type="text/markdown",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     author='MuggleK',
     author_email='peichangchuan@gmail.com',
     url='https://github.com/MuggleK/CrawlersTools',
@@ -34,10 +33,11 @@ setup(
         "PyYAML==5.3.1",
         "lxml==4.9.1",
         "numpy==1.21.6",
-        "Distance==0.1.3"
+        "Distance==0.1.3",
+        "chardet==3.0.4"
     ],
     license='BSD License',
-    packages=find_packages(),
+    packages=find_packages(where='.', exclude=(), include=('*',)),
     platforms=["all"],
     classifiers=[
         'Intended Audience :: Developers',
