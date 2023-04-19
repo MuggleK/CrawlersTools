@@ -4,48 +4,61 @@
 # @Author  : MuggleK
 # @File    : time_process.py
 
-import datetime
 import re
-import time
+from datetime import datetime, timedelta
+
+from sinan import Sinan
+
+from CrawlersTools.projects.filters import empty_title
 
 
-def format_time(time_str, struct_return=False):
-    """
-    :param time_str:
-    :param struct_return:
-    :return:
-    """
+class TimeProcessor:
 
-    struct_time = None
-    time_format_str = "%Y-%m-%d"
-    time_old_format = '%b %d %Y %I:%M%p'
-    try:
-        timestamp = time_str if isinstance(time_str, int) else int(time_str)
-        if timestamp >= 0:
-            time_array = time.localtime(timestamp)
-            struct_time = time_array if struct_return else time.strftime(time_format_str, time_array)
-        else:
-            date_time = datetime.datetime(1970, 1, 2) + datetime.timedelta(seconds=timestamp)
-            struct_time = time.strptime(time_str, time_format_str) if struct_return else date_time
-    except ValueError:
-        reg = r'(\d{4}).*?([0-1]?\d).*?([0-3]?\d)'
-        time_str = re.search(reg, time_str)
-        if time_str:
-            year = time_str.group(1)
-            month = time_str.group(2)
-            day = time_str.group(3)
-            time_str = year + "-" + month + "-" + day
-            struct_time = time.strptime(time_str, time_format_str) if struct_return else time_str
-    if not struct_time and time_str:
-        struct_time = datetime.datetime.strptime(time_str, time_old_format)
+    datetime_pattern = r"([0-9]{4}).*?([0-1]{0,1}[0-9]).*?([0-3]{0,1}[0-9])"
 
-    if struct_return:
-        return struct_time
-    if struct_time: return str(struct_time)
+    def __init__(self):
+        self.fmt = "%Y-%m-%d"  # 暂时只处理年月日
 
+    def format(self, string, struct=False):
+        string = empty_title(string)
+        try:
+            return self.process_timestamp(string, struct)
+        except ValueError:
+            # print(f"非时间戳格式：{string}")
+            pass
 
-def compare_time(time_min, time_max):
-    time_min_format = format_time(time_min, struct_return=True)
-    time_max_format = format_time(time_max, struct_return=True)
-    if time_min_format < time_max_format:
-        return True
+        date = Sinan(string).parse(display_status=False).get("datetime", [""])[0].split(' ')[0]  # 错误的时分秒
+        if not date:
+            re_res = re.search(self.datetime_pattern, string)
+            if re_res is not None:
+                date = f"{re_res.group(1)}-{re_res.group(2)}-{re_res.group(3)}"
+            else:
+                # 提取不出时间或者格式不满足 datetime_pattern的直接返回
+                return
+
+        if struct:
+            return datetime.strptime(date, self.fmt)
+        return date
+
+    def process_timestamp(self, timestamp, struct):
+        timestamp = int(str(timestamp)[:10])
+        source_time = datetime(1970, 1, 1)
+        struct_time = (
+            datetime.fromtimestamp(timestamp) if timestamp >= 0 else source_time + timedelta(seconds=timestamp)
+        )
+        if struct:
+            return struct_time
+        return struct_time.strftime(self.fmt)
+
+    def compare_date(self, time_min, time_max) -> bool:
+        if not (time_min and time_max):
+            return False
+
+        time_min_format = time_min if isinstance(time_min, datetime) else self.format(time_min, struct=True)
+        time_max_format = time_max if isinstance(time_max, datetime) else self.format(time_max, struct=True)
+        if not (time_min_format and time_max_format):
+            return False
+
+        if time_min_format.date() <= time_max_format.date():
+            return True
+        return False

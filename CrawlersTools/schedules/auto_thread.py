@@ -4,15 +4,16 @@
 # @Author  : MuggleK
 # @File    : auto_thread.py
 
-import time
 import random
+import time
 from inspect import isgenerator
-from threading import Thread, active_count, Lock
+from threading import Lock, Thread, active_count
 from traceback import format_exc
 
 from loguru import logger
 
 thread_lock = Lock()
+progress = 0
 
 
 class ExcThread(Thread):
@@ -27,11 +28,14 @@ class ExcThread(Thread):
         self._kwargs = kwargs if kwargs else {}
 
     def run(self):
+        global progress
         try:
             if self._target:
                 self._target(*self._args, **self._kwargs)
+                progress += 1
+                logger.info(f"当前progress：{progress}")
         except:
-            logger.error(f'args：{self._args} kwargs：{self._kwargs}，{format_exc()}')
+            logger.error(f'self._target:{self._target} args：{self._args} kwargs：{self._kwargs}，{format_exc()}')
 
 
 class AutoThread(object):
@@ -54,7 +58,7 @@ class AutoThread(object):
 
     def wait(self):
         while active_count() > self.os_threads:
-            time.sleep(.25)
+            time.sleep(0.25)
 
     @staticmethod
     def next_task(task):
@@ -80,8 +84,11 @@ class AutoThread(object):
                     if task_fun is None:
                         loop_flag = False
                         break
-                    child_thread = ExcThread(target=task_fun) if self.arg is None else ExcThread(target=task_fun, args=(
-                        self.arg,))
+                    child_thread = (
+                        ExcThread(target=task_fun)
+                        if self.arg is None
+                        else ExcThread(target=task_fun, args=(self.arg,))
+                    )
                 else:
                     task_arg = self.next_task(self.args)
                     thread_lock.release()

@@ -4,6 +4,17 @@
 # @Author  : MuggleK
 # @File    : bloom_filter.py
 
+import hashlib
+
+
+def sha1(data):
+    """
+    BloomFilter fingerprint Function
+    """
+    hash_object = hashlib.sha1(data.encode('utf-8'))
+    hex_dig = hash_object.hexdigest()
+    return hex_dig
+
 
 class SimpleHash(object):
     """
@@ -24,7 +35,7 @@ class BloomFilter(object):
     """
     Usage::
 
-      # >>> bf = BloomFilter(server, key, block_num=1)  # you can increase block_num if your are filtering too many urls
+      # >>> bf = BloomFilter(server, key, block_num=1)  # you can increase block_num if you are filtering too many urls
       # ... if is_contains(fp):
       # ...     print(f"{fp} 已存在")
       # ... else:
@@ -49,24 +60,29 @@ class BloomFilter(object):
         for seed in self.seeds:
             self.hash_func.append(SimpleHash(self.bit_size, seed))
 
-    def is_contains(self, str_input):
+    def is_contains(self, str_input) -> bool:
         """
-
-        :param str_input: Filter Fingerprint
+        param str_input: source string
         :return:
         """
         if not str_input:
             return False
         ret = True
 
-        name = self.key + str(int(str_input[0:2], 16) % self.block_num)
+        fp = sha1(str_input)
+        name = f"{self.key}{str(int(fp[0:2], 16) % self.block_num)}"
         for f in self.hash_func:
             loc = f.hash(str_input)
             ret = ret & self.server.getbit(name, loc)
-        return ret
+        return bool(ret)
 
     def insert(self, str_input):
-        name = self.key + str(int(str_input[0:2], 16) % self.block_num)
+        """
+        param str_input: source string
+        :return:
+        """
+        fp = sha1(str_input)
+        name = f"{self.key}{str(int(fp[0:2], 16) % self.block_num)}"
         for f in self.hash_func:
             loc = f.hash(str_input)
             self.server.setbit(name, loc, 1)

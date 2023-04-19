@@ -1,9 +1,9 @@
 auto_mix_prep==0.2.0
 DBUtils==1.3
 fontTools==4.26.2
-httpx==0.23.0
+httpx==0.23.3
 httpx[http2]
-loguru==0.5.3
+loguru==0.6.0
 Pillow==8.3.1
 PyExecJS==1.5.1
 pymongo==3.5.1
@@ -14,3 +14,4 @@ lxml==4.9.1
 numpy==1.21.6
 Distance==0.1.3
 chardet==3.0.4
+sinan==0.1.5

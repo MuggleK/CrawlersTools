@@ -6,7 +6,7 @@
 
 from CrawlersTools.logs import Logging
 
-from CrawlersTools.preprocess import format_time, compare_time
+from CrawlersTools.preprocess import TimeProcessor
 
 from CrawlersTools.requests import base_requests, get_proxies, UserAgent
 

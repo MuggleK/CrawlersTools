@@ -38,7 +38,6 @@ CONTENT_EXTRACTOR_NOISE_XPATH = [
     '//div[contains(@class, "页眉")]',
     '//div[contains(@class, "页头")]',
     '//*[contains(@class, "hidden")]',
-    '//*[contains(@class, "title")]',
 ]
 
 
