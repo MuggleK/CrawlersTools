@@ -11,7 +11,7 @@ with open("README.md", "r", encoding='utf-8') as f:
 
 setup(
     name='CrawlersTools',  # 包名
-    version='1.4.68',  # 版本号
+    version='1.4.69',  # 版本号
     description='Tools for Crawlers',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -30,6 +30,7 @@ setup(
         "pymongo==3.5.1",
         "PyMySQL==0.9.3",
         "redis==4.1.3",
+        "tqdm==4.65.0",
         "PyYAML==5.3.1",
         "lxml==4.9.1",
         "numpy==1.21.6",
