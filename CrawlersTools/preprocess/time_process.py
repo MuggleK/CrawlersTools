@@ -17,7 +17,7 @@ class TimeProcessor:
     datetime_pattern = r"([0-9]{4}).*?([0-1]{0,1}[0-9]).*?([0-3]{0,1}[0-9])"
 
     def __init__(self):
-        self.fmt = "%Y-%m-%d"   # 暂时只处理年月日
+        self.fmt = "%Y-%m-%d"  # 暂时只处理年月日
 
     def format(self, string, struct=False):
         string = empty_title(string)
@@ -27,11 +27,14 @@ class TimeProcessor:
             # print(f"非时间戳格式：{string}")
             pass
 
-        date = Sinan(string).parse(display_status=False).get("datetime", [""])[0].split(' ')[0]     # 错误的时分秒
+        date = Sinan(string).parse(display_status=False).get("datetime", [""])[0].split(' ')[0]  # 错误的时分秒
         if not date:
             re_res = re.search(self.datetime_pattern, string)
             if re_res is not None:
                 date = f"{re_res.group(1)}-{re_res.group(2)}-{re_res.group(3)}"
+            else:
+                # 提取不出时间或者格式不满足 datetime_pattern的直接返回
+                return
 
         if struct:
             return datetime.strptime(date, self.fmt)
@@ -40,7 +43,9 @@ class TimeProcessor:
     def process_timestamp(self, timestamp, struct):
         timestamp = int(str(timestamp)[:10])
         source_time = datetime(1970, 1, 1)
-        struct_time = datetime.fromtimestamp(timestamp) if timestamp >= 0 else source_time + timedelta(seconds=timestamp)
+        struct_time = (
+            datetime.fromtimestamp(timestamp) if timestamp >= 0 else source_time + timedelta(seconds=timestamp)
+        )
         if struct:
             return struct_time
         return struct_time.strftime(self.fmt)
