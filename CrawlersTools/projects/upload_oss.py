@@ -8,9 +8,10 @@ import base64
 import hashlib
 import re
 
-from loguru import logger
 import httpx
+from loguru import logger
 
+from CrawlersTools import base_requests
 from CrawlersTools.requests.proxy import get_proxies
 
 
@@ -26,9 +27,11 @@ class UploadOss(object):
     ```
     """
 
-    def __init__(self, oss_url, suffix_reg):
+    def __init__(self, oss_url, suffix_reg, oss_code=None, client_code=None):
         self.suffix_reg = suffix_reg
         self.oss_url = oss_url
+        self.oss_code = oss_code
+        self.client_code = client_code
 
     def download(self, file_url, file_name, headers=None, verify=True):
         """
@@ -41,7 +44,8 @@ class UploadOss(object):
         """
         location = global_uuid = ""
         proxy = None
-        headers = headers if headers else {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}
+        headers = headers if headers else {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}
         for _ in range(3):
             try:
                 if ";base64," in file_url:
@@ -63,7 +67,7 @@ class UploadOss(object):
                         return location, global_uuid
                     file_name = f"{file_name}.{suffix}"
                     logger.debug(f"正在上传文件: {file_name}: {file_url}")
-                    res = httpx.get(file_url, timeout=60, headers=headers, verify=verify, proxies=proxy)
+                    res = base_requests(file_url, timeout=60, headers=headers, verify=verify, proxies=proxy)
                     if 200 <= res.status_code < 400:
                         upload_result = self.post_file(file_name, res)
                         location = upload_result.get("downloadLocation")
@@ -75,7 +79,7 @@ class UploadOss(object):
                         break
             except Exception as e:
                 logger.warning(f"文件上传异常: {file_name}: {e}")
-                proxy = get_proxies()
+                proxy = get_proxies(http2=True)
                 continue
         else:
             logger.error(f"文件上传失败: {file_name}: {file_url}")
@@ -85,8 +89,8 @@ class UploadOss(object):
     def post_file(self, name, resp):
         params_json = {
             "name": name,
-            "appCode": "spider-project",
-            "appClientCode": "policy",
+            "appCode": self.oss_code,
+            "appClientCode": self.client_code,
             "appOrgCode": "",
             "appUserId": "",
             "ownCatalogUuid": ""
@@ -95,13 +99,14 @@ class UploadOss(object):
         if json_data.get("msg") == "SUCCESS":
             token_data = json_data.get("data", {})
 
-            str_dic = {"key": token_data.get("dir") + token_data.get("name"),
-                       "policy": token_data.get("policy"),
-                       "OSSAccessKeyId": token_data.get("accessid"),
-                       "success_action_status": 200,
-                       "callback": token_data.get("callback"),
-                       "signature": token_data.get("signature"),
-                       }
+            str_dic = {
+                "key": token_data.get("dir") + token_data.get("name"),
+                "policy": token_data.get("policy"),
+                "OSSAccessKeyId": token_data.get("accessid"),
+                "success_action_status": 200,
+                "callback": token_data.get("callback"),
+                "signature": token_data.get("signature"),
+            }
 
             files = {'file': resp.content}
             response = httpx.post(token_data.get("host"), data=str_dic, files=files)

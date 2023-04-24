@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 from loguru import logger
 
 
-def empty_title(lis):
+def empty_text(lis):
     word = ""
     for i in lis:
         word += i.strip()
@@ -31,7 +31,7 @@ def filter_title(title: str, remove_list: list):
         and_lists = r.split("and")
         if len(and_lists) == 1:
             if and_lists[0] in title:
-                logger.debug(f"[DEBUG] 过滤标题: {title}   过滤词:{r}")
+                logger.debug(f"过滤标题: {title}  过滤词: {r}")
                 return True
         else:
             total = [1 for a in and_lists if a in title]
