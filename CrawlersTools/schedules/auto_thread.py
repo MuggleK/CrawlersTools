@@ -78,6 +78,7 @@ class AutoThread(object):
             while loop_flag:
                 active_thread = active_count()
                 if active_thread >= self.thread_num:
+                    time.sleep(.25)
                     continue
                 for _ in range(self.thread_num - active_thread + self.os_threads):
                     thread_lock.acquire()
