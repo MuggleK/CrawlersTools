@@ -6,8 +6,8 @@
 
 import re
 
-from CrawlersTools.extractors.schemas.element import Element
 from CrawlersTools.extractors.base import BaseExtractor
+from CrawlersTools.extractors.schemas.element import Element
 from CrawlersTools.extractors.utils.settings import ATTACHMENT_REGX
 
 

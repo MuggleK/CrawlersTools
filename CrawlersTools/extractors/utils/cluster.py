@@ -1,5 +1,6 @@
-from CrawlersTools.extractors.utils.similarity import similarity
 from collections import defaultdict
+
+from CrawlersTools.extractors.utils.similarity import similarity
 
 
 def cluster(items, threshold=0.9):

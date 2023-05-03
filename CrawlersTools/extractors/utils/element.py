@@ -1,10 +1,12 @@
 import re
-import numpy as np
+from collections import defaultdict
 from os.path import exists
 from types import ModuleType
-from collections import defaultdict
+
+import numpy as np
 from loguru import logger
 from lxml.html import fromstring, HtmlElement
+
 from CrawlersTools.extractors.schemas.element import Element
 from CrawlersTools.extractors.utils.similarity import similarity
 

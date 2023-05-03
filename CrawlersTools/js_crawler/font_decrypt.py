@@ -7,9 +7,9 @@
 from io import BytesIO
 
 import httpx
+from PIL import ImageFont, ImageDraw, Image
 from fontTools.ttLib import TTFont
 from loguru import logger
-from PIL import ImageFont, ImageDraw, Image
 
 
 class FontDecrypt(object):

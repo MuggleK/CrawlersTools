@@ -1,6 +1,7 @@
-from lxml.html import fromstring
 from loguru import logger
 from lxml.html import etree
+from lxml.html import fromstring
+
 from CrawlersTools.extractors.schemas.element import Element
 
 

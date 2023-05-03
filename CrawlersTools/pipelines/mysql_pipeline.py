@@ -6,9 +6,9 @@
 
 import time
 
+import pymysql
 from DBUtils.PooledDB import PooledDB
 from loguru import logger
-import pymysql
 
 
 class MysqlPipeline(object):

@@ -9,8 +9,8 @@ import re
 from lxml.html import etree
 
 from CrawlersTools.extractors.base import BaseExtractor
-from CrawlersTools.extractors.utils.settings import DATETIME_PATTERN, PUBLISH_TIME_META, TITLE_EXTRACTOR_USELESS_TAGS
 from CrawlersTools.extractors.schemas.element import Element
+from CrawlersTools.extractors.utils.settings import DATETIME_PATTERN, PUBLISH_TIME_META, TITLE_EXTRACTOR_USELESS_TAGS
 from CrawlersTools.preprocess import TimeProcessor
 
 format_time = TimeProcessor().format

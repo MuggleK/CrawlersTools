@@ -4,10 +4,10 @@
 # @Author  : MuggleK
 # @File    : base_requests.py
 
-import re
 import json
-import time
 import random
+import re
+import time
 
 from chardet import detect
 from httpx import Client, Response
@@ -151,7 +151,6 @@ class BaseRequests(object):
 
     @staticmethod
     def process_clearance(html):
-        import hashlib
 
         data = json.loads(re.findall(r'go\((.*?)\)', html)[1])
         chars_length = len(data.get('chars'))
