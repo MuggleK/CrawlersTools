@@ -151,6 +151,7 @@ class BaseRequests(object):
 
     @staticmethod
     def process_clearance(html):
+        import hashlib
 
         data = json.loads(re.findall(r'go\((.*?)\)', html)[1])
         chars_length = len(data.get('chars'))
