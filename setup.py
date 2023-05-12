@@ -33,7 +33,7 @@ setup(
         "tqdm",
         "PyYAML==5.3.1",
         "lxml==4.9.1",
-        "numpy==1.21.6",
+        "numpy",
         "Distance==0.1.3",
         "chardet==3.0.4",
         "sinan==0.1.5"
