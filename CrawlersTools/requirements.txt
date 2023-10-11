@@ -16,3 +16,4 @@ numpy
 Distance==0.1.3
 chardet==3.0.4
 sinan==0.1.5
+kafka-python==2.0.2
