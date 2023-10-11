@@ -52,3 +52,7 @@ class Logging(object):
     @staticmethod
     def error(msg):
         return logger.error(msg)
+
+    @staticmethod
+    def success(msg):
+        return logger.success(msg)
