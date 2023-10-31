@@ -8,7 +8,7 @@
 
 import json
 from kafka import KafkaProducer
-from logs.log import Logging
+from loguru import logger
 
 
 class KProducer:
@@ -34,4 +34,4 @@ class KProducer:
             record_metadata = future.get(timeout=10)  # 同步确认消费
             partition = record_metadata.partition  # 数据所在的分区
             offset = record_metadata.offset  # 数据所在分区的位置
-            Logging.success('save success, partition: {}, offset: {}'.format(partition, offset))
+            logger.success('save success, partition: {}, offset: {}'.format(partition, offset))

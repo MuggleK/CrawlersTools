@@ -4,4 +4,5 @@
 # @Author  : MuggleK
 # @File    : logs.py
 
-from CrawlersTools.logs.log import Logging
+from .logger import init_logger
+from .handlers import default_handler, logstash_handler
