@@ -50,8 +50,11 @@ class MongoPipeline:
         records = self.db.get_collection(collection_name).find_one(query, ref_query)
         return records
 
-    def update(self, collection_name, query, update):
-        self.db.get_collection(collection_name).update(query, update, upsert=True)
+    def update(self, collection_name, query, update, many=False):
+        if many:
+            self.db.get_collection(collection_name).update_many(query, update, upsert=True)
+            return
+        self.db.get_collection(collection_name).update_one(query, update, upsert=True)
 
     def aggregate(self, collection_name, query):
         records = self.db.get_collection(collection_name).aggregate(query)
