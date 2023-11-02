@@ -7,7 +7,7 @@ loguru==0.6.0
 Pillow==8.3.1
 PyExecJS==1.5.1
 pymongo
-PyMySQL==0.9.3
+PyMySQL
 redis==4.1.3
 tqdm
 PyYAML==5.3.1
