@@ -11,7 +11,7 @@ with open("README.md", "r", encoding='utf-8') as f:
 
 setup(
     name='CrawlersTools',  # 包名
-    version='1.4.76',  # 版本号
+    version='1.4.77',  # 版本号
     description='Tools for Crawlers',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -19,24 +19,25 @@ setup(
     author_email='peichangchuan@gmail.com',
     url='https://github.com/MuggleK/CrawlersTools',
     install_requires=[
-        "auto_mix_prep==0.2.0",
+        "auto_mix_prep",
         "DBUtils==1.3",
         "fontTools",
         "httpx",
         "httpx[http2]",
         "loguru",
         "Pillow",
-        "PyExecJS",
-        "pymongo==3.5.1",
-        "PyMySQL==0.9.3",
-        "redis==4.1.3",
+        "PyExecJS==1.5.1",
+        "pymongo",
+        "PyMySQL",
+        "redis",
         "tqdm",
-        "PyYAML==5.3.1",
-        "lxml==4.9.1",
+        "PyYAML",
+        "lxml",
         "numpy",
         "Distance",
-        "chardet==3.0.4",
-        "sinan==0.1.5"
+        "chardet",
+        "sinan",
+        "kafka-python"
     ],
     license='BSD License',
     packages=find_packages(where='.', exclude=(), include=('*',)),

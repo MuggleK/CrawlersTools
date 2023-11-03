@@ -163,6 +163,7 @@ a_thread.main_thread()
 * [artical-spider](https://github.com/govzhz/artical-spider)
 * [html-extractor](https://github.com/cnyangkui/html-extractor)
 * [vthread](https://github.com/cilame/vthread)
+* [usepy](https://github.com/use-py/usepy)
 
 
 ## Contribute
