@@ -6,6 +6,7 @@
 
 from CrawlersTools.extractors import PolicyExtractor, ListExtractor
 from .logs.logger import init_logger
+from CrawlersTools.logs import Logging
 from CrawlersTools.pipelines import MysqlPipeline, MongoPipeline, RedisPipeline
 from CrawlersTools.preprocess import TimeProcessor
 from CrawlersTools.requests import base_requests, get_proxies, UserAgent

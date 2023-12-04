@@ -6,3 +6,5 @@
 
 from .logger import init_logger
 from .handlers import default_handler, logstash_handler
+
+from CrawlersTools.logs.log import Logging
