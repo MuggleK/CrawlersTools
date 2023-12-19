@@ -17,7 +17,8 @@ def init_logger(
         handlers: Optional[List[Dict]] = None,
         add_file_handler: bool = False,
         log_path: str = "./",
-        file_handler_level: str = "INFO",
+        file_handler_level: str = "DEBUG",
+        file_handler_format: str = DEFAULT_HANDLER_FORMAT,
         **kwargs
 ):
     """
@@ -26,7 +27,8 @@ def init_logger(
     :param handlers: 日志处理的 handlers ，参见 loguru.configure ，默认配置了 default_handler ，其他预置的可以从 .logger.handlers 导入
     :param add_file_handler: 开启后，会添加一个默认的文件输出 handler
     :param log_path: 日志文件的路径，默认当前目录
-    :param file_handler_level: 文件输出 handler 的日志级别，默认 INFO
+    :param file_handler_level: 文件输出 handler 的日志级别，默认 DEBUG
+    :param file_handler_format: 文件输出 handler 的日志格式，默认 DEFAULT_HANDLER_FORMAT
     :param kwargs: 其他要传递给 logger.configure 的参数
     """
     if handlers is None:
@@ -51,5 +53,5 @@ def init_logger(
         logger.add(
             f"{log_path}/log_{TIME_FORMAT}_{file_handler_level.lower()}.log",
             encoding="UTF-8", enqueue=True, retention=expire_date,
-            level=file_handler_level, format=DEFAULT_HANDLER_FORMAT
+            level=file_handler_level, format=file_handler_format
         )
