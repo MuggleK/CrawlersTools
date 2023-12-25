@@ -35,7 +35,6 @@ class Logging(object):
         logger.add(f"{log_path}/log_{time_format}_info.log", encoding="utf-8", enqueue=True, retention="1 months", level="INFO", format=log_format)
         logger.add(f"{log_path}/log_{time_format}_error.log", encoding="utf-8", enqueue=True, retention=expire_date, level="ERROR", format=log_format)
         logger.add(f"{log_path}/log_{time_format}_debug.log", encoding="utf-8", enqueue=True, retention=expire_date, level="DEBUG", format=log_format)
-        logger.add(f"{log_path}/log_{time_format}_waring.log", encoding="utf-8", enqueue=True, retention=expire_date, level="WARNING", format=log_format)
 
     @staticmethod
     def info(msg):
